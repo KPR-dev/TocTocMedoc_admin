@@ -95,6 +95,10 @@
   background: #30267F;
   color: white;
 }
+.v-list-item--active {
+  background-color: rgb(0, 64, 128); /* Change this to your desired navy blue color */
+  color: white; /* Change this to the text color you want when the item is active */
+}
 </style>
 <script>
 import { useAppStore } from "../store/app";
