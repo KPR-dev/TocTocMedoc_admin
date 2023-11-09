@@ -12,8 +12,8 @@
         <v-list density="compact" nav>
           <v-list-item to="/home1" prepend-icon="mdi-grid" title="Tableau de bord" value="home1"></v-list-item>
           <v-list-item to="/utilisateur" prepend-icon="mdi-account-multiple" title="Utilisateurs" value="utilisateur"></v-list-item>
-          <v-list-item to="" prepend-icon="mdi-wallet" title="Facturations" value=""></v-list-item>
-          <v-list-item to="" prepend-icon="mdi-barcode" title="Grille tarifaires" value=""></v-list-item>
+          <v-list-item to="/facture" prepend-icon="mdi-wallet" title="Facturations" value="facture"></v-list-item>
+          <v-list-item to="/tarif" prepend-icon="mdi-barcode" title="Grille tarifaires" value="tarif"></v-list-item>
 
 
           <v-divider></v-divider>
