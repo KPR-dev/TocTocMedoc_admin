@@ -190,6 +190,7 @@ export default {
     async logout() {
       console.log("logout");
       appStore.logout();
+      this.$router.push('/');
     },
     showSnackbar(text, color) {
       this.snackbar.text = text;
