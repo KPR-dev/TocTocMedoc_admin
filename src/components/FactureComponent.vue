@@ -83,7 +83,7 @@
 
               </v-row>
             </v-container>
-            <small class="text-danger">*Champt obligatoire</small>
+            <small class="text-danger">*Champs obligatoire</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -138,7 +138,7 @@
 
               </v-row>
             </v-container>
-            <small class="text-danger">*Champt obligatoire</small>
+            <small class="text-danger">*Champs obligatoire</small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
@@ -291,11 +291,11 @@ export default {
         console.log(this.user);
         await this.add_user();
         await this.get_user();
-        this.showSnackbar('Véhicule ajouté avec succès', 'success');
+        this.showSnackbar('Utilisateur ajouté avec succès', 'success');
         this.dialog = false;
       } else {
         console.log("BAD  !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout du véhicule verifiez les champs', 'error');
+        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout d\'un Utilisateur verifiez les champs', 'error');
       }
     },
 
@@ -367,7 +367,7 @@ export default {
           const response = await this.$axios.put('/user/update_user/'+this.user.user_code, requestData);
           console.log('Update user =', response.data);
           this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.showSnackbar('Chauffeur modifié avec succès', 'success');
+          this.showSnackbar('Utilisateur modifié avec succès', 'success');
           this.updateDialog = false;
           this.get_user();
         } catch (error) {
