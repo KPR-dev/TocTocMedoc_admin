@@ -4,9 +4,9 @@
     <v-row>
       <v-breadcrumbs :items="items">
         <template v-slot:prepend>
-          <v-icon size="small" icon="mdi-wallet"></v-icon>
+          <v-icon size="small" icon="mdi-account-group"></v-icon>
           <v-card-title color="primary">
-            Facturations
+            Utilisateurs
           </v-card-title>
         </template>
         <template v-slot:divider>
@@ -20,7 +20,7 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between" >
-            <v-card class="mx-4 my-6" width="300" title="Factures" prepend-icon="mdi-wallet" style="background: #CEE5FF;">
+            <v-card class="mx-4 my-6" width="300" title="Utilisateurs" prepend-icon="mdi-account-group" style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1> {{ numberusers }}</h1>
               </div>
@@ -30,8 +30,8 @@
         <!-- <v-btn color="success" prepend-icon="mdi-plus-circle" @click="dialog = true">
           Ajouter un véhicule
         </v-btn> -->
-        <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter une facture"
-          prepend-icon="mdi-wallet" @click="dialog = true" style="background: #00639A; color: white;">
+        <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter un utilisateur"
+          prepend-icon="mdi-account-group" @click="dialog = true" style="background: #00639A; color: white;">
           <div>
             <h1> <svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
                 <path
@@ -43,7 +43,7 @@
       </v-row>
       <v-card class="mx-auto mt-8" >
         <v-card-title>
-          Toutes les factures
+          Liste des utilisateurs
           <v-spacer></v-spacer>
           <v-text-field v-model="search" label="Recherche" single-line hide-details variant="outlined"></v-text-field>
         </v-card-title><br><br>
@@ -70,7 +70,7 @@
       <v-card>
         <v-form ref="form">
           <v-card-title>
-            <span class="text-h6">Ajouter une facture</span>
+            <span class="text-h6">Ajouter un utilisateur</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -79,7 +79,18 @@
                   <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
                 </v-col>
-
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
+                    hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.phone_number" clearable :rules="rules" label="Télephone *"
+                    hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.email" clearable :rules="rules" label="Email *"
+                    hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
+                </v-col>
 
               </v-row>
             </v-container>
@@ -110,7 +121,7 @@
       <v-card>
         <v-form ref="form">
           <v-card-title>
-            <span class="text-h6">Modification d'une facture</span>
+            <span class="text-h6">Modification d'un utilisateur</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -202,10 +213,14 @@ export default {
     search: "",
     headers: [
 
+      { key: "user_code", title: "Nom utilisateur" },
+      { key: "lastname", title: "Nom" },
+      { key: "firstname", title: "Prénom" },
+      { key: "phone_number", title: "Télephone" },
+      { key: "email", title: "Email" },
 
 
-
-
+      { title: "Actions", key: "actions", sortable: false },
     ],
     users: [],
     user: {
