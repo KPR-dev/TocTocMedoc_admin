@@ -82,6 +82,12 @@
             <v-card-text>
               <v-container>
                 <v-row>
+                  <!-- <v-col cols="12" sm="6">
+                    <v-text-field hint="Ancien mot de passe" clearable :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      v-model="password_change" label="Ancien mot de passe" prepend-icon="mdi mdi-lock"
+                      variant="outlined" :rules="passwordRules" :type="show1 ? 'text' : 'password'"
+                      @click:append="show1 = !show1"></v-text-field>
+                  </v-col> -->
                   <v-col cols="12" sm="8">
                     <v-text-field hint="Nouveau mot de passe" clearable :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                       v-model="password_change" label="Nouveau mot de passe" prepend-icon="mdi mdi-lock"
@@ -150,7 +156,9 @@ export default {
   data: () => ({
     currentUser: appStore.currentUser,
     drawer: true,
-
+    show1: false,
+    password_change: "",
+    passwordRules: [(value) => !!value || "Veuillez entrer le nouveau un mot de passe"],
     rail: false,
     open: ['Users'],
     dialog_change: false,
