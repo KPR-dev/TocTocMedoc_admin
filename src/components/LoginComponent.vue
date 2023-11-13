@@ -1,6 +1,7 @@
 <template>
-  <div id="app">
-    <img src="@/assets/no.png" alt="Logo" class="app-logo" />
+  <div>
+    <div>
+      <img src="@/assets/no.png" alt="Logo" class="app-logo" />
     <v-card :elevation="80" :height="400" :width="800" rounded :loading="loading" class="card-container">
       <v-progress-linear color="primary" v-if="loading" indeterminate></v-progress-linear>
       <v-row align="center">
@@ -24,25 +25,17 @@
                     <v-container class="mt-4">
                       <v-row>
                         <v-col cols="12">
-                          <v-text-field clearable v-model="codeUser" label="Adresse email" variant="outlined"
-                            prepend-inner-icon="mdi mdi-account-key" outlined :rules="codeUserRules"></v-text-field>
+                          <v-text-field hint="Veuillez entrer votre code utilisateur" clearable v-model="codeUser"
+                            label="Email" prepend-icon="mdi mdi-account-key" variant="outlined"
+                            :rules="codeUserRules"></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12">
-
-                          <v-text-field
-                            v-model="password"
-                            outlined :rules="passwordRules"
-                            variant="outlined"
-                            :type="show1 ?'text':'password'"
-                            label="Mot de passe"
-                            placeholder="Password"
-                            prepend-inner-icon="mdi-key"
-                            :append-inner-icon="show1  ? 'mdi-eye':'mdi-eye-off'"
-                            @click:append="show1  = !show1 "
-                            required
-                          ></v-text-field>
+                          <v-text-field hint="Veuillez entrer votre mot de passe" clearable
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
+                            prepend-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
+                            :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
@@ -61,12 +54,13 @@
         </v-col>
       </v-row>
     </v-card>
+    </div>
   </div>
 </template>
 
 <style>
-#app {
-  position: absolute;
+.test {
+  position: relative;
   /* Utilisez la position absolue */
   top: 0;
   left: 0;
@@ -122,9 +116,12 @@
   margin-left: 160px;
   /* Ajustez la marge à droite selon vos besoins */
 }
+
 .custom-text-field {
-  width: 100%; /* Set the width as needed */
+  width: 100%;
+  /* Set the width as needed */
 }
+
 /* Styles personnalisés pour les bordures et le bouton d'œil */
 .password-input .v-input__icon--append {
   color: grey;

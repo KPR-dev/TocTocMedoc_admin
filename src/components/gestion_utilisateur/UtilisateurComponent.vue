@@ -45,9 +45,9 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;">Modifier</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;">Supprimer</v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;"></v-btn>
+                
+                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
               </v-row>
             </v-container>
           </template>
@@ -217,11 +217,11 @@ export default {
     search: "",
     headers: [
 
-      { key: "code", title: "Code utilisateur" },
       { key: "lastname", title: "Nom" },
       { key: "firstname", title: "Prénom" },
       { key: "phone", title: "Télephone" },
       { key: "email", title: "Email" },
+      { key: "role", title: "role" },
 
 
       { title: "Actions", key: "actions", sortable: false },
@@ -284,7 +284,7 @@ export default {
 
     async get_user() {
       try {
-        const response = await this.$axios.get("http://31.207.35.25:8000/user/all");
+        const response = await this.$axios.get("/user/all");
         this.users = response.data;
         console.log('all users =', this.users); // Ajoutez cette ligne
       } catch (error) {
@@ -304,7 +304,7 @@ export default {
             // created_at: this.user.created_at,
             // updated_at: this.user.updated_at,
           };
-          const response = await this.$axios.post("http://31.207.35.25:8000/user/add", Data);
+          const response = await this.$axios.post("/user/add", Data);
           this.user = {};  // Effacez les données après l'ajout réussi
           console.log('Add user =', response.Data);
           this.get_user();  // Rafraîchissez la liste des utilisateurs
