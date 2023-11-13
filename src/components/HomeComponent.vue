@@ -66,20 +66,6 @@ export default {
     updateDialog: false,
     dialog: false,
     search: "",
-    headers: [
-    {
-        align: "start",
-        key: "id",
-        sortable: false,
-        title: "Code",
-      },
-      // { key: "ticket_number", title: "Numéro de billet" },
-      { key: "customer", title: "Client" },
-      { key: "travel_date", title: "Date de voyage" },
-      { key: "travel_sense", title: "Trajet" },
-      { key: "created_at", title: "Créer le" },
-      // { title: "Actions", key: "actions", sortable: false },
-    ],
 
     tickets: [],
     vehicles: [],
@@ -89,7 +75,7 @@ export default {
   mounted() {
     this.get_tickets();
     this.get_vehicles();
-    this.get_drivers();
+    this.get_users();
 
   },
   computed: {
@@ -134,12 +120,14 @@ export default {
         console.log('all vehicle =', response.data);
       });
     },
-    async get_drivers() {
-      this.$axios.get("/driver/all").then((response) => {
+    async get_users() {
+      try {
+        const response = await this.$axios.get("http://31.207.35.25:8000/user/all");
         this.drivers = response.data;
-
-        console.log('all driver =', response.data);
-      });
+        console.log('all drivers =', this.drivers);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     },
   },
 

@@ -25,15 +25,24 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field clearable v-model="codeUser" label="Adresse email" variant="outlined"
-                            prepend-icon="mdi mdi-account-key" outlined :rules="codeUserRules"></v-text-field>
+                            prepend-inner-icon="mdi mdi-account-key" outlined :rules="codeUserRules"></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12">
-                          <v-text-field clearable variant="outlined" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password"
-                            label="Mot de passe" prepend-icon="mdi mdi-lock" outlined :rules="passwordRules"
-                            :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"
-                            class="password-input"></v-text-field>
+
+                          <v-text-field
+                            v-model="password"
+                            outlined :rules="passwordRules"
+                            variant="outlined"
+                            :type="show1 ?'text':'password'"
+                            label="Mot de passe"
+                            placeholder="Password"
+                            prepend-inner-icon="mdi-key"
+                            :append-inner-icon="show1  ? 'mdi-eye':'mdi-eye-off'"
+                            @click:append="show1  = !show1 "
+                            required
+                          ></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
@@ -56,7 +65,7 @@
 </template>
 
 <style>
-#id {
+#app {
   position: absolute;
   /* Utilisez la position absolue */
   top: 0;
@@ -113,7 +122,9 @@
   margin-left: 160px;
   /* Ajustez la marge à droite selon vos besoins */
 }
-
+.custom-text-field {
+  width: 100%; /* Set the width as needed */
+}
 /* Styles personnalisés pour les bordures et le bouton d'œil */
 .password-input .v-input__icon--append {
   color: grey;
@@ -154,7 +165,6 @@ export default {
     passwordRules: [(value) => !!value || "Veuillez entrer un mot de passe"],
   }),
   methods: {
-
     showSnackbar(text, color) {
       this.snackbarText = text;
       this.snackbarColor = color;
