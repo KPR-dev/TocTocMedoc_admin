@@ -22,7 +22,7 @@ export const useAppStore = defineStore('app', {
     logout() {
       this.currentUser = {}
       this.isLogged = !this.isLogged
-      window.location.reload()
+      
     },
     setLogged() {
       this.isLogged = !this.isLogged
