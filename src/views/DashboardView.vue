@@ -45,7 +45,7 @@
                 <!-- <v-btn color="primary" v-bind="props"> Dropdown </v-btn> -->
                 <v-list-item v-bind="props">
 
-                  <v-list-item-title>{{ currentUser.lastname }} {{ currentUser.firstname }} <v-avatar size="36" v-on="on" class="ml-2 mr-2">
+                  <v-list-item-title>{{ currentUser.user_lastname }} {{ currentUser.user_firstname }} <v-avatar size="36" v-on="on" class="ml-2 mr-2">
                     <img src="../assets/logo.png" alt="Avatar de l'utilisateur" />
                   </v-avatar></v-list-item-title>
 
