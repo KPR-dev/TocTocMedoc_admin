@@ -22,7 +22,7 @@
           <div class="d-flex flex-wrap justify-content-between" >
             <v-card class="mx-4 my-6" width="300" title="Factures" prepend-icon="mdi-wallet" style="background: #CEE5FF;">
               <div class="mx-4 my-6">
-                <h1> {{ numberusers }}</h1>
+                <h1> {{ numberFactures }}</h1>
               </div>
             </v-card>
           </div>
@@ -30,7 +30,7 @@
         <!-- <v-btn color="success" prepend-icon="mdi-plus-circle" @click="dialog = true">
           Ajouter un véhicule
         </v-btn> -->
-        <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter une facture"
+        <!-- <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter une facture"
           prepend-icon="mdi-wallet" @click="dialog = true" style="background: #00639A; color: white;">
           <div>
             <h1> <svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
@@ -39,7 +39,7 @@
                   fill="#E8E5FF" />
               </svg></h1>
           </div>
-        </v-card>
+        </v-card> -->
       </v-row>
       <v-card class="mx-auto mt-8" >
         <v-card-title>
@@ -48,13 +48,13 @@
           <v-text-field v-model="search" label="Recherche" single-line hide-details variant="outlined"></v-text-field>
         </v-card-title><br><br>
 
-        <v-data-table :headers="headers" :items="users" :search="search">
+        <v-data-table :headers="headers" :items="factures" :search="search">
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; facture = item.columns;"></v-btn>
                 <v-spacer></v-spacer>
-                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
+                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; facture = item.columns;"></v-btn>
               </v-row>
             </v-container>
           </template>
@@ -76,7 +76,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
+                  <v-text-field v-model="facture.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
                 </v-col>
 
@@ -116,23 +116,23 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.user_code" clearable :rules="rules" label="Nom utilisateur *"
+                  <v-text-field v-model="facture.facture_code" clearable :rules="rules" label="Nom utilisateur *"
                     hint="Veuillez entrer le nom utilisateur" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
+                  <v-text-field v-model="facture.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
+                  <v-text-field v-model="facture.firstname" :rules="rules" clearable label="Prénom *"
                     hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.phone_number" clearable :rules="rules" label="Télephone *"
+                  <v-text-field v-model="facture.phone_number" clearable :rules="rules" label="Télephone *"
                     hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.email" clearable :rules="rules" label="Email *"
+                  <v-text-field v-model="facture.email" clearable :rules="rules" label="Email *"
                     hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
                 </v-col>
 
@@ -145,7 +145,7 @@
             <v-btn color="blue-darken-1" variant="text" @click="annuler">
               Annuler
             </v-btn>
-            <v-btn color="blue-darken-1" variant="flat" @click="updated_user">
+            <v-btn color="blue-darken-1" variant="flat" @click="updated_facture">
               Modifier
             </v-btn>
           </v-card-actions>
@@ -207,13 +207,13 @@ export default {
 
 
     ],
-    users: [],
-    user: {
+    factures: [],
+    facture: {
       firstname: "",
       lastname: "",
       phone_number: "",
       email: "",
-      user_code: "",
+      facture_code: "",
     },
 
 
@@ -225,16 +225,16 @@ export default {
   }),
 
   mounted() {
-    this.get_user();
+    this.getFacture();
     // this.Change_select();
 
   },
 
   computed: {
 
-    numberusers() {
+    numberFactures() {
       // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
-      return this.users.length;
+      return this.factures.length;
     },
     formattedDate() {
       return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
@@ -252,24 +252,24 @@ export default {
     annuler() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
       this.updateDialog = null; // ou this.updateDialog = "";
-      this.user = ""
+      this.facture = ""
     },
 
-    async get_user() {
-      this.$axios.get("/user/all").then((response) => {
-        this.users = response.data;
+    async getFacture() {
+      this.$axios.get("/facture/all").then((response) => {
+        this.factures = response.data;
 
-        console.log('all user =', response.data);
+        console.log('all facture =', response.data);
       });
     },
 
-    async add_user() {
-      console.log(this.user)
+    async add_facture() {
+      console.log(this.facture)
       this.$axios
-        .post("/user/add", this.user).then((response) => {
-          this.user = {};
-          console.log('Add user =', response);
-          this.get_user();
+        .post("/facture/add", this.facture).then((response) => {
+          this.facture = {};
+          console.log('Add facture =', response);
+          this.getFacture();
 
         })
         .catch((error) => {
@@ -281,9 +281,9 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid) {
-        console.log(this.user);
-        await this.add_user();
-        await this.get_user();
+        console.log(this.facture);
+        await this.add_facture();
+        await this.getFacture();
         this.showSnackbar('Utilisateur ajouté avec succès', 'success');
         this.dialog = false;
       } else {
@@ -291,30 +291,30 @@ export default {
         this.showSnackbar('Une erreur s\'est produite lors de l\'ajout d\'un Utilisateur verifiez les champs', 'error');
       }
     },
-    async updated_user() {
+    async updated_facture() {
       const { valid } = await this.$refs.form.validate();
 
       if (valid) {
         try {
-          console.log('USER =', this.user);
+          console.log('facture =', this.facture);
           const requestData = {
-            id: this.user.id,
-            firstname: this.user.firstname,
-            lastname: this.user.lastname,
-            phone_number: this.user.phone_number,
-            email: this.user.email,
-            user_code: this.user.user_code,
-            role: this.user.role,
-            // created_at: this.user.created_at,
-            // updated_at: this.user.updated_at,
+            id: this.facture.id,
+            firstname: this.facture.firstname,
+            lastname: this.facture.lastname,
+            phone_number: this.facture.phone_number,
+            email: this.facture.email,
+            facture_code: this.facture.facture_code,
+            role: this.facture.role,
+            // created_at: this.facture.created_at,
+            // updated_at: this.facture.updated_at,
           };
 
-          const response = await this.$axios.put('/user/update_user/'+this.user.user_code, requestData);
-          console.log('Update user =', response.data);
-          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
+          const response = await this.$axios.put('/facture/update_facture/'+this.facture.facture_code, requestData);
+          console.log('Update facture =', response.data);
+          this.facture = {}; // Effacez les données du conducteur après la mise à jour réussie
           this.showSnackbar('Utilisateur modifié avec succès', 'success');
           this.updateDialog = false;
-          this.get_user();
+          this.getFacture();
         } catch (error) {
           console.error('Erreur lors de la mise à jour:', error);
           this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');

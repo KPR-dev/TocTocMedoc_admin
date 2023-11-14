@@ -46,7 +46,7 @@
             <v-container>
               <v-row justify="center" align="center">
                 <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;"></v-btn>
-
+                <v-spacer></v-spacer>
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
               </v-row>
             </v-container>
@@ -217,13 +217,13 @@ export default {
     search: "",
     headers: [
 
-      { key: "lastname", title: "Nom" },
-      { key: "firstname", title: "Prénom" },
-      { key: "phone", title: "Télephone" },
-      { key: "email", title: "Email" },
-      { key: "role", title: "role" },
-
-
+      { key: "user.lastname", title: "Nom" },
+      { key: "user.firstname", title: "Prénom" },
+      { key: "user.phone", title: "Télephone" },
+      { key: "user.email", title: "Email" },
+      { key: "user.role", title: "Role" },
+      { key: "rate.libelle", title: "Son Tarif" },
+      { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
     ],
     users: [],
@@ -275,7 +275,7 @@ export default {
 
     async get_user() {
       try {
-        const response = await this.$axios.get("/user/all");
+        const response = await this.$axios.get("/account/all");
         this.users = response.data;
         console.log('all users =', this.users); // Ajoutez cette ligne
       } catch (error) {
