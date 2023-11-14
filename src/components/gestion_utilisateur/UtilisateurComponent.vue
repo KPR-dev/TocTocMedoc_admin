@@ -19,18 +19,22 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" title="Utilisateurs" prepend-icon="mdi-account-group" style="background: #CEE5FF;">
+            <v-card class="mx-4 my-6" width="300" title="Utilisateurs" prepend-icon="mdi-account-group"
+              style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1>{{ numberusers }}</h1>
               </div>
             </v-card>
           </div>
         </div>
-        <v-card class="mx-4 my-6" width="300" title="Ajouter un utilisateur" prepend-icon="mdi-account-group" @click="dialog = true" style="background: #00639A; color: white;">
+        <v-card class="mx-4 my-6" width="300" title="Ajouter un utilisateur" prepend-icon="mdi-account-group"
+          @click="dialog = true" style="background: #00639A; color: white;">
           <div>
             <h1><svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
-              <path d="M44.8334 30.3334H30.8334V44.3334H26.1667V30.3334H12.1667V25.6667H26.1667V11.6667H30.8334V25.6667H44.8334V30.3334Z" fill="#E8E5FF" />
-            </svg></h1>
+                <path
+                  d="M44.8334 30.3334H30.8334V44.3334H26.1667V30.3334H12.1667V25.6667H26.1667V11.6667H30.8334V25.6667H44.8334V30.3334Z"
+                  fill="#E8E5FF" />
+              </svg></h1>
           </div>
         </v-card>
       </v-row>
@@ -45,7 +49,7 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true;"></v-btn>
                 <v-spacer></v-spacer>
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
               </v-row>
@@ -87,13 +91,8 @@
                     hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select
-                    v-model="user.role"
-                    :items="roles"
-                    label="Rôle *"
-                    hint="Veuillez sélectionner un rôle"
-                    variant="outlined"
-                  ></v-select>
+                  <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
+                    variant="outlined"></v-select>
                 </v-col>
 
               </v-row>
@@ -130,10 +129,6 @@
           <v-card-text>
             <v-container>
               <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.code" clearable :rules="rules" label="Nom utilisateur *"
-                    hint="Veuillez entrer le nom utilisateur" variant="outlined"></v-text-field>
-                </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
@@ -232,21 +227,17 @@ export default {
       lastname: "",
       phone: "",
       email: "",
-      code: "",
     },
 
-
-
-    roles: ['admin', 'user'],
-      rules: [
-        (v) => !!v || 'Ce champ est requis', // Add any validation rules you need
-      ],
+    roles: ['ADMIN', 'USER'],
+    rules: [
+      (v) => !!v || 'Ce champ est requis', // Add any validation rules you need
+    ],
 
   }),
 
   mounted() {
     this.get_user();
-
   },
 
   computed: {
@@ -286,24 +277,24 @@ export default {
       try {
         const Data = {
 
-            firstname: this.user.firstname,
-            lastname: this.user.lastname,
-            email: this.user.email,
-            phone: this.user.phone,
-            role: this.user.role,
-            password: "root"
-            // created_at: this.user.created_at,
-            // updated_at: this.user.updated_at,
-          };
-          const response = await this.$axios.post("/user/add", Data);
-          this.user = {};  // Effacez les données après l'ajout réussi
-          console.log('Add user =', response.Data);
-          this.get_user();  // Rafraîchissez la liste des utilisateurs
-          this.showSnackbar('Utilisateur ajouté avec succès', 'success');
-          this.dialog = false;
+          firstname: this.user.firstname,
+          lastname: this.user.lastname,
+          email: this.user.email,
+          phone: this.user.phone,
+          role: this.user.role,
+          password: "root"
+          // created_at: this.user.created_at,
+          // updated_at: this.user.updated_at,
+        };
+        const response = await this.$axios.post("/user/add", Data);
+        this.user = {};  // Effacez les données après l'ajout réussi
+        console.log('Add user =', response.Data);
+        this.get_user();  // Rafraîchissez la liste des utilisateurs
+        this.showSnackbar('Utilisateur ajouté avec succès', 'success');
+        this.dialog = false;
       } catch (error) {
-          console.error('Error adding user:', error);
-          this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de l\'utilisateur, veuillez vérifier les champs', 'error');
+        console.error('Error adding user:', error);
+        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de l\'utilisateur, veuillez vérifier les champs', 'error');
       }
     },
 
@@ -357,7 +348,7 @@ export default {
             // updated_at: this.user.updated_at,
           };
 
-          const response = await this.$axios.put('/user/update_user/'+this.user.code, requestData);
+          const response = await this.$axios.put('/user/update_user/' + this.user.code, requestData);
           console.log('Update user =', response.data);
           this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
           this.showSnackbar('Utilisateur modifié avec succès', 'success');

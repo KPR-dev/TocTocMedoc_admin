@@ -122,7 +122,7 @@ export default {
     },
     async get_users() {
       try {
-        const response = await this.$axios.get("http://31.207.35.25:8000/user/all");
+        const response = await this.$axios.get("/account/all");
         this.users = response.data;
         console.log('all users =', this.users);
       } catch (error) {
