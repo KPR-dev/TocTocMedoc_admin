@@ -25,20 +25,20 @@
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Factures" prepend-icon="mdi-wallet"
               >
               <div class="mx-4 my-6">
-                <h1> {{ numbervehicules }}</h1>
+                <h1> {{ numberOfFactures }}</h1>
               </div>
             </v-card>
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Utilisateurs" prepend-icon="mdi-account-multiple"
               >
               <div class="mx-4 my-6">
-                <h1> {{ numberchauffeur }}</h1>
+                <h1> {{ numberUsers }}</h1>
               </div>
             </v-card>
 
             <v-card class="mx-4 my-6"  style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode" title="Grilles tarifaires"
               >
               <div class="mx-4 my-6">
-                <h1>{{ numberOfTickets }}</h1>
+                <h1>{{ numberOfRates }}</h1>
               </div>
             </v-card>
           </div>
@@ -67,38 +67,38 @@ export default {
     dialog: false,
     search: "",
 
-    tickets: [],
-    vehicles: [],
-    drivers: [],
+    rates: [],
+    factures: [],
+    users: [],
     resultats: {},
   }),
   mounted() {
-    this.get_tickets();
-    this.get_vehicles();
+    this.get_rates();
+    this.get_factures();
     this.get_users();
 
   },
   computed: {
-    numberOfTickets() {
-      // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
-      return this.tickets.length;
+    numberOfRates() {
+      // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
+      return this.rates.length;
 
     },
-    numberchauffeur() {
-      // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
-      return this.drivers.length;
+    numberUsers() {
+      // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
+      return this.users.length;
     },
-    numbervehicules() {
-      // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
-      return this.vehicles.length;
+    numberOfFactures() {
+      // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
+      return this.factures.length;
     },
     formattedDate() {
       return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
     },
   },
   methods: {
-    async get_tickets() {
-      this.$axios.get("/ticket/all").then((response) => {
+    async get_rates() {
+      this.$axios.get("/rate/all").then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           response.data[i].updated_at = this.formattedDate(
             response.data[i].updated_at
@@ -107,24 +107,24 @@ export default {
             response.data[i].created_at
           );
         }
-        this.tickets = response.data;
+        this.rates = response.data;
 
 
-        console.log('all tickets =', response.data);
+        console.log('all rates =', response.data);
       });
     },
-    async get_vehicles() {
-      this.$axios.get("/vehicle/all").then((response) => {
-        this.vehicles = response.data;
+    async get_factures() {
+      this.$axios.get("/facture/all").then((response) => {
+        this.factures = response.data;
 
-        console.log('all vehicle =', response.data);
+        console.log('all facture =', response.data);
       });
     },
     async get_users() {
       try {
         const response = await this.$axios.get("http://31.207.35.25:8000/user/all");
-        this.drivers = response.data;
-        console.log('all drivers =', this.drivers);
+        this.users = response.data;
+        console.log('all users =', this.users);
       } catch (error) {
         console.error('Error fetching users:', error);
       }

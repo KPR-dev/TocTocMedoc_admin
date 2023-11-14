@@ -46,7 +46,7 @@
             <v-container>
               <v-row justify="center" align="center">
                 <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.columns;"></v-btn>
-                
+
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
               </v-row>
             </v-container>
@@ -246,9 +246,6 @@ export default {
 
   mounted() {
     this.get_user();
-    this.get_role();
-    this.get_module();
-    // this.Change_select();
 
   },
 
@@ -269,13 +266,7 @@ export default {
       this.snackbarColor = color;
       this.snackbar = true;
     },
-        Change_select() {
-      // Code à exécuter lorsque la sélection change
-      console.log('La valeur sélectionnée a changé :', this.selectedItem);
 
-      // Vous pouvez effectuer des actions ici en fonction de la sélection
-      // Par exemple, mettre à jour d'autres données en fonction de la sélection
-    },
     annuler() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
       this.updateDialog = null; // ou this.updateDialog = "";
@@ -332,36 +323,6 @@ export default {
     },
 
 
-    async get_role() {
-      this.$axios.get("/role/all").then((response) => {
-        this.roles = response.data;
-
-        console.log('all role =', response.data);
-      });
-    },
-
-    async get_module() {
-      this.$axios.get("/module/all").then((response) => {
-        this.modules = response.data;
-
-        console.log('all modules =', response.data);
-      });
-    },
-
-    async add_role() {
-      console.log(this.user)
-      this.$axios
-        .post("/role/add", this.role).then((response) => {
-          this.role = {};
-          console.log('Add role =', response);
-          this.get_role();
-
-        })
-        .catch((error) => {
-          console.log(error.response.data.detail);
-
-        });
-    },
     async validate_role() {
       const { valid } = await this.$refs.form.validate();
 

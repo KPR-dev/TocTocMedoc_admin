@@ -24,8 +24,14 @@ const routes = [
       path: 'facture', // Modifier le chemin vers '/accueil1' ou tout autre chemin unique
       name: 'Facture',
       component: () =>
-          import ('@/views/Facture.vue'),
-  },
+        import('@/views/Facture.vue'),
+    },
+    {
+      path: 'tarifaire', // Modifier le chemin vers '/accueil1' ou tout autre chemin unique
+      name: 'Tarifaire',
+      component: () =>
+        import('@/views/Tarifaire.vue'),
+    },
 
 
     ]

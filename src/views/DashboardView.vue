@@ -14,9 +14,9 @@
             <v-divider></v-divider>
           <v-list-item to="/facture" prepend-icon="mdi-wallet" title="Facturations" value="facture"></v-list-item>
           <v-divider></v-divider>
-          <v-list-item to="/tarif" prepend-icon="mdi-barcode" title="Grille tarifaires" value="tarif"></v-list-item>
+          <v-list-item to="/tarifaire" prepend-icon="mdi-barcode" title="Grille tarifaires" value="tarifaire"></v-list-item>
           <v-divider></v-divider>
-          <v-list-item to="/hisorique" prepend-icon="mdi-history" title="Historique" value="historique"></v-list-item>
+          <v-list-item to="/historique" prepend-icon="mdi-history" title="Historique" value="historique"></v-list-item>
           <v-divider></v-divider>
         </v-list>
 
