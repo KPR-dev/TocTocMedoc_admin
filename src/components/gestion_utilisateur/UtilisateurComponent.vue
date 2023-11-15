@@ -177,7 +177,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue-darken-1" variant="text" @click="dialogDelete = false">Annuler</v-btn>
-          <v-btn color="red" variant="flat" @click="delete_user">Oui</v-btn>
+          <v-btn color="red" variant="flat" @click="deleteItemConfirm">Oui</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -223,7 +223,7 @@ export default {
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       { key: "user.role", title: "Role" },
-      // { key: "subscription_date", title: "Date de subscription" },
+      { key: "subscription_date", title: "Date de subscription" },
       { key: "rate.libelle", title: "Son Tarif" },
       { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
@@ -374,27 +374,26 @@ export default {
         this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
       }
     },
-    async delete_user() {
-      const { valid } = await this.$refs.form.validate();
-
-      if (valid) {
-        try {
-          console.log('USER =', this.user);
-
-          const response = await this.$axios.put('/user/delete/' + this.user.id);
-          console.log('Update user =', response.data);
-          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.showSnackbar('Utilisateur effacé avec succès', 'success');
-          this.deleteDialog = false;
-          this.get_user();
-        } catch (error) {
-          console.error('Erreur lors de la suppression:', error);
-          this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
-        }
-      } else {
-        console.log("BAD !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
-      }
+    deleteItemConfirm() {
+      console.log('user =', this.user);
+      /* const requestData = {
+        id: this.rate.id,
+        libelle: this.rate.libelle,
+        price: this.rate.price,
+        credit: this.rate.credit,
+      }; */
+      this.$axios.delete('/user/delete/' + this.user.id)
+        .then(() => {
+          this.showSnackbar('Tarif supprimé avec succès', 'success');
+          this.get_user(); // Rafraîchit la liste des tarifs après la suppression
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la suppression du tarif:', error);
+          this.showSnackbar('Erreur lors de la suppression du tarif', 'error');
+        })
+        .finally(() => {
+          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
+        });
     },
 
 
