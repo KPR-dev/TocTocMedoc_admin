@@ -26,15 +26,15 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field hint="Veuillez entrer votre code utilisateur" clearable v-model="codeUser"
-                            label="Email" prepend-icon="mdi mdi-account-key" variant="outlined"
+                            label="Email" prepend-inner-icon="mdi mdi-account-key" variant="outlined"
                             :rules="codeUserRules"></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12">
                           <v-text-field hint="Veuillez entrer votre mot de passe" clearable
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
-                            prepend-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
+                            :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
+                            prepend-inner-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
                             :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"></v-text-field>
                         </v-col>
                       </v-row>
