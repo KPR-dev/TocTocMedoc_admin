@@ -49,7 +49,7 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.user;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="editUser(item)"></v-btn>
                 <v-spacer></v-spacer>
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
@@ -94,6 +94,7 @@
                   <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
                     variant="outlined"></v-select>
                 </v-col>
+
 
               </v-row>
             </v-container>
@@ -149,7 +150,6 @@
                   <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
                     variant="outlined"></v-select>
                 </v-col>
-
               </v-row>
             </v-container>
             <small class="text-danger">*Champs obligatoire</small>
@@ -234,6 +234,7 @@ export default {
       lastname: "",
       phone: "",
       email: "",
+      role: ""
     },
 
     roles: ['ADMIN', 'USER'],
@@ -260,6 +261,13 @@ export default {
 
   methods: {
 
+    editUser(item) {
+      // Copier toutes les propriétés de item dans l'objet user que vous utilisez pour la modification
+      this.user = { ...item.user };
+
+      // Ouvrir le dialogue de modification
+      this.updateDialog = true;
+    },
 
     showSnackbar(text, color) {
       this.snackbarText = text;
@@ -292,8 +300,6 @@ export default {
           phone: this.user.phone,
           role: this.user.role,
           password: "root"
-          // created_at: this.user.created_at,
-          // updated_at: this.user.updated_at,
         };
         const response = await this.$axios.post("/user/add", Data);
         this.user = {};  // Effacez les données après l'ajout réussi
@@ -322,23 +328,6 @@ export default {
       }
     },
 
-
-    async validate_role() {
-      const { valid } = await this.$refs.form.validate();
-
-      if (valid) {
-        console.log(this.role);
-        await this.add_role();
-        await this.get_role();
-        this.showSnackbar('Role ajouté avec succès', 'success');
-        this.dialog = false;
-      } else {
-        console.log("BAD  !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout d\'un role verifiez les champs', 'error');
-      }
-    },
-
-
     async updated_user() {
       const { valid } = await this.$refs.form.validate();
 
@@ -351,13 +340,10 @@ export default {
             lastname: this.user.lastname,
             phone: this.user.phone,
             email: this.user.email,
-            code: this.user.code,
             role: this.user.role,
-            // created_at: this.user.created_at,
-            // updated_at: this.user.updated_at,
           };
 
-          const response = await this.$axios.put('/user/update_user/' + this.user.code, requestData);
+          const response = await this.$axios.put('/user/update/' + this.user.id, requestData);
           console.log('Update user =', response.data);
           this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
           this.showSnackbar('Utilisateur modifié avec succès', 'success');
@@ -373,9 +359,29 @@ export default {
       }
     },
 
-
-
-
+    deleteItemConfirm() {
+      console.log('rate =', this.user);
+      const requestData = {
+        id: this.user.id,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
+        phone: this.user.phone,
+        email: this.user.email,
+        role: this.user.role,
+      };
+      this.$axios.delete('/user/delete/'+this.user.id, requestData)
+        .then(() => {
+          this.showSnackbar('Utilisateur supprimé avec succès', 'success');
+          this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
+        })
+        .catch((error) => {
+          console.error('Erreur lors de la suppression du Utilisateur:', error);
+          this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
+        })
+        .finally(() => {
+          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
+        });
+    },
   },
 
 
