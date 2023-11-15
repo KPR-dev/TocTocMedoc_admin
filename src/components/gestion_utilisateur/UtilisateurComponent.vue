@@ -176,8 +176,8 @@
         <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir supprimer cet élément?</v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue-darken-1" variant="text" @click="dialogDelete = false">Annuler</v-btn>
-          <v-btn color="red" variant="flat" @click="delete_user">Oui</v-btn>
+          <v-btn color="blue-darken-1" variant="text" @click="annuler">Annuler</v-btn>
+          <v-btn color="red" variant="flat" @click="deleteItemConfirm">Oui</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -278,7 +278,8 @@ export default {
     annuler() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
       this.updateDialog = null; // ou this.updateDialog = "";
-      this.user = ""
+      this.user = "";
+      this.dialogDelete = null;
     },
 
     async get_user() {
@@ -343,7 +344,7 @@ export default {
             role: this.user.role,
           };
 
-          const response = await this.$axios.put('/user/update_user/' + this.user.code, requestData);
+          const response = await this.$axios.put('/user/update/'+this.user.id, requestData);
           console.log('Update user =', response.data);
           this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
           this.showSnackbar('Utilisateur modifié avec succès', 'success');
@@ -358,33 +359,8 @@ export default {
         this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
       }
     },
-    async delete_user() {
-      const { valid } = await this.$refs.form.validate();
-
-      if (valid) {
-        try {
-          console.log('USER =', this.user);
-
-          const response = await this.$axios.put('/user/delete/' + this.user.id);
-          console.log('Update user =', response.data);
-          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.showSnackbar('Utilisateur effacé avec succès', 'success');
-          this.deleteDialog = false;
-          this.get_user();
-        } catch (error) {
-          console.error('Erreur lors de la suppression:', error);
-          this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
-        }
-      } else {
-        console.log("BAD !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
-      }
-    },
-
-
-
     deleteItemConfirm() {
-      console.log('rate =', this.user);
+      console.log('user =', this.user);
       const requestData = {
         id: this.user.id,
         firstname: this.user.firstname,
@@ -403,9 +379,13 @@ export default {
           this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
         })
         .finally(() => {
+          this.user = {};
           this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
         });
     },
+
+
+
   },
 
 
