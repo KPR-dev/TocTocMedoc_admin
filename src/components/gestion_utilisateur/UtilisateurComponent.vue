@@ -45,13 +45,13 @@
           <v-text-field v-model="search" label="Recherche" single-line hide-details variant="outlined"></v-text-field>
         </v-card-title>
 
-        <v-data-table :headers="headers" :items="users" :search="search">
+        <v-data-table :headers="headers" :items="users" :search="search" items-per-page="5">
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="updateDialog = true; user = item.user;"></v-btn>
                 <v-spacer></v-spacer>
-                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.columns;"></v-btn>
+                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
             </v-container>
           </template>
@@ -145,6 +145,10 @@
                   <v-text-field v-model="user.email" clearable :rules="rules" label="Email *"
                     hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
                 </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
+                    variant="outlined"></v-select>
+                </v-col>
 
               </v-row>
             </v-container>
@@ -198,6 +202,7 @@ export default {
     VDataTable,
   },
   data: () => ({
+
     selectedItem: null, // Initialisez la valeur sélectionnée
     snackbar: false,
     snackbarText: '',
@@ -210,6 +215,7 @@ export default {
     dialog_role: false,
     dialogDelete: false,
     search: "",
+
     headers: [
 
       { key: "user.lastname", title: "Nom" },
@@ -217,6 +223,7 @@ export default {
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       { key: "user.role", title: "Role" },
+      // { key: "subscription_date", title: "Date de subscription" },
       { key: "rate.libelle", title: "Son Tarif" },
       { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
@@ -252,6 +259,8 @@ export default {
   },
 
   methods: {
+
+
     showSnackbar(text, color) {
       this.snackbarText = text;
       this.snackbarColor = color;

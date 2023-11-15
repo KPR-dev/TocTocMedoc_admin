@@ -49,9 +49,9 @@
         </v-card-title><br><br> -->
 
       <v-row>
-        <v-col v-for="(rate, index) in rates" :key="index" cols="12" md="4" :headers="headers" :items="rates"
+        <v-col v-for="(rate, index) in rates" :key="index" cols="6" md="4" :headers="headers" :items="rates"
           :search="search">
-          <v-card class="mx-4 my-6" width="300" style="border-radius: 8px;
+          <v-card class="mx-4 my-6" width="300" style="border-radius: 8rem;
 background: var(--material-theme-sys-light-surface-variant, #DEE3EB)">
             <v-card-title>{{ rate.libelle }}</v-card-title>
             <v-card-subtitle>{{ rate.price }} FCFA</v-card-subtitle>
