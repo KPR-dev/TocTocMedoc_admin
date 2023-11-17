@@ -61,8 +61,6 @@
     </v-container>
   </v-container>
 
-
-
   <!-- modal d'ajout un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent width="1024">
@@ -94,8 +92,6 @@
                   <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
                     variant="outlined"></v-select>
                 </v-col>
-
-
               </v-row>
             </v-container>
             <small class="text-danger">*Champs obligatoire</small>
@@ -117,7 +113,6 @@
       </v-card>
     </v-dialog>
   </v-row>
-
 
   <!-- modal de modification d'un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
   <v-row justify="center">
