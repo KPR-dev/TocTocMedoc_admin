@@ -218,7 +218,7 @@ export default {
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       { key: "user.role", title: "Role" },
-      // { key: "subscription_date", title: "Date de subscription" },
+      { key: "subscription_date", title: "Date de subscription" },
       { key: "rate.libelle", title: "Son Tarif" },
       { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
@@ -354,29 +354,27 @@ export default {
         this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
       }
     },
-    deleteItemConfirm() {
-      console.log('user =', this.user);
-      const requestData = {
-        id: this.user.id,
-        firstname: this.user.firstname,
-        lastname: this.user.lastname,
-        phone: this.user.phone,
-        email: this.user.email,
-        role: this.user.role,
-      };
-      this.$axios.delete('/user/delete/'+this.user.id, requestData)
-        .then(() => {
-          this.showSnackbar('Utilisateur supprimé avec succès', 'success');
-          this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la suppression du Utilisateur:', error);
-          this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
-        })
-        .finally(() => {
-          this.user = {};
-          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
-        });
+    async delete_user() {
+      const { valid } = await this.$refs.form.validate();
+
+      if (valid) {
+        try {
+          console.log('USER =', this.user);
+
+          const response = await this.$axios.put('/user/delete/' + this.user.id);
+          console.log('Update user =', response.data);
+          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
+          this.showSnackbar('Utilisateur effacé avec succès', 'success');
+          this.deleteDialog = false;
+          this.get_user();
+        } catch (error) {
+          console.error('Erreur lors de la suppression:', error);
+          this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
+        }
+      } else {
+        console.log("BAD !!!!");
+        this.showSnackbar('Une erreur s\'est produite lors de la suppression ...', 'error');
+      }
     },
 
 
