@@ -152,7 +152,7 @@
 
               </v-row>
             </v-container>
-            <small class="text-danger">*Champs obligatoire</small>
+            <small class="text-danger">*Champs obligatoire </small>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
