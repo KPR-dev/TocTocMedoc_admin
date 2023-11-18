@@ -15,7 +15,7 @@ const routes = [
     },
 
     {
-      path: '/utilisateur',
+      path: 'utilisateur',
       name: 'Utilisateur',
       component: () =>
         import( /* webpackChunkName: "home" */ '@/views/gestion_utilisateur/UtilisateurView.vue'),
@@ -31,6 +31,12 @@ const routes = [
       name: 'Tarifaire',
       component: () =>
         import('@/views/Tarifaire.vue'),
+    },
+    {
+      path: 'historique',
+      name: 'Historique',
+      component: () =>
+        import( /* webpackChunkName: "home" */ '@/views/HistoriqueView.vue'),
     },
 
 
