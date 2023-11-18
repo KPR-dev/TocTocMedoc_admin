@@ -18,30 +18,10 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" prepend-icon="mdi-history" title="Historiques"
-              style="background: #CEE5FF;">
+
+            <v-card class="mx-4 my-6" width="300" prepend-icon="mdi-history" title="Historiques" style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfevents }}</h1>
-              </div>
-            </v-card>
-          </div>
-        </div>
-
-        <div class="d-flex align-center flex-column">
-          <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" prepend-icon="mdi-history" title="Adresse ip"
-              style="background: #CEE5FF;">
-              <div class="mx-4 my-6">
-                <h1>{{ numberOfIp_address }}</h1>
-              </div>
-            </v-card>
-          </div>
-        </div>
-        <div class="d-flex align-center flex-column">
-          <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" prepend-icon="mdi-history" title="Actions" style="background: #CEE5FF;">
-              <div class="mx-4 my-6">
-                <h1>{{ numberOfActions }}</h1>
               </div>
             </v-card>
           </div>
@@ -87,7 +67,12 @@ export default {
     dialog: false,
     search: "",
     headers: [
-
+    {
+        align: "start",
+        key: "entity_id",
+        sortable: false,
+        title: "Code",
+      },
       { key: "ip_address", title: "Adresse Ip" },
       { key: "action", title: "Action effectuée" },
       { key: "entity", title: "Entité" },
@@ -95,8 +80,6 @@ export default {
       // { title: "Actions", key: "actions", sortable: false },
     ],
     events: [],
-    events_address_ip: [],
-    events_actions: []
 
   }),
   mounted() {
@@ -107,23 +90,6 @@ export default {
     numberOfevents() {
       // Utilisez la propriété length pour obtenir le nombre de events dans le tableau
       return this.events.length;
-
-    },
-    numberOfIp_address() {
-      // Utiliser un Set pour éliminer les doublons
-      const uniqueIp_address = new Set(this.events_address_ip);
-
-      // Convertir le Set en tableau
-      const uniqueIp_addressArray = Array.from(uniqueIp_address);
-
-      // Retourner la longueur du tableau sans doublons
-      return uniqueIp_addressArray.length;
-
-    },
-
-    numberOfActions() {
-      //   // Utilisez la propriété length pour obtenir le nombre de events dans le tableau
-      return this.events_actions.length;
 
     },
 
@@ -143,11 +109,8 @@ export default {
           );
         }
         this.events = response.data;
-        this.events_address_ip = response.data.map(event => event.ip_address);
-        this.events_actions = response.data.map(event => event.action);
+
         console.log('all events =', response.data);
-        console.log('all addresses =', this.events_address_ip);
-        console.log('all actions =', this.events_actions);
       });
     },
 
