@@ -288,6 +288,7 @@ export default {
 
     headers: [
 
+      { key: "id", title: "#" },
       { key: "user.lastname", title: "Nom" },
       { key: "user.firstname", title: "Prénom" },
       { key: "user.phone", title: "Télephone" },
