@@ -2,8 +2,9 @@
   <v-card>
     <v-layout>
       <v-navigation-drawer v-model="drawer" :rail="rail" permanent @click="rail = false" style="background: var(--material-theme-sys-light-primary-container, #CEE5FF);">
-        <v-img src="@/assets/no.png" alt="Votre logo" class="logo v-img--scale-down"
-          style="width:10rem; height: 90px;"></v-img>
+        <v-flex xs12 class="text-xs-center">
+          <v-img src="@/assets/no.png" alt="Votre logo" class="logo v-img--scale-down"></v-img>
+        </v-flex>
           <v-divider></v-divider>
         <v-divider></v-divider><br>
         <v-list density="compact" nav>
@@ -24,7 +25,7 @@
           <div class="pa-2">
             <v-divider></v-divider>
             <v-list density="compact" nav>
-              <v-list-item @click="logout()" prepend-icon="mdi-logout" title="Se déconnecter"
+              <v-list-item @click="deconDialog = true;" prepend-icon="mdi-logout" title="Se déconnecter"
                 style="color: rgb(221, 39, 15);" value="logout"></v-list-item>
             </v-list>
           </div>
@@ -112,6 +113,26 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-row justify="center">
+      <v-dialog v-model="deconDialog" persistent width="330" content-class="custom-dialog">
+        <v-card class="custom-card">
+          <v-form ref="form">
+            <v-card-title class="custom-title">
+              <span class="text-h6">Voulez-vous vous déconnecter ?</span>
+            </v-card-title>
+            <v-card-text class="custom-text">
+              <v-container>
+                <v-btn class="ml-12" color="blue darken-1" @click="logout">Oui</v-btn>
+                <v-btn class="ml-12" color="blue darken-1" @click="non">Non</v-btn>
+              </v-container>
+            </v-card-text>
+          </v-form>
+          <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
+            {{ snackbarText }}
+          </v-snackbar>
+        </v-card>
+      </v-dialog>
+    </v-row>
 
 
 
@@ -128,7 +149,25 @@
 /* Ajoutez d'autres styles personnalisés selon vos besoins */
 
 
+.v-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ensure the container takes the full height of the viewport */
+}
 
+.logo-container {
+  text-align: right; /* Change from center to right */
+  margin-right: 20px; /* Add margin for spacing */
+}
+
+.logo {
+  width: 10rem;
+  height: 90px;
+  margin-left: 50px; /* Add this line to ensure the logo is aligned to the right within its container */
+
+}
 .custom-snackbar {
   position: fixed;
   bottom: 90%;
@@ -145,6 +184,21 @@
   /* Change this to your desired navy blue color */
   color: white;
   /* Change this to the text color you want when the item is active */
+}
+.custom-dialog {
+  background: linear-gradient(to bottom, #87CEEB,);
+}
+
+.custom-card {
+  border-radius: 8px;
+}
+
+.custom-title {
+  color: #333;
+}
+
+.custom-text {
+  padding-bottom: 16px;
 }
 </style>
 <script>
@@ -167,6 +221,7 @@ export default {
       text: 'Bienvenue chez TocTocMedoc',
       color: 'success', // Ajoutez la couleur de la notification ici (par exemple, 'success', 'error', 'warning', etc.)
     },
+    deconDialog: false,
 
   }),
   mounted() {
@@ -186,7 +241,12 @@ export default {
         this.rail = false;
       }
     },
+    non() {
+      // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
 
+      this.deconDialog = null; // ou this.updateDialog = "";
+
+    },
     async logout() {
       console.log("logout");
       appStore.logout();

@@ -30,7 +30,7 @@
                         </v-row>
                         <v-row>
                           <v-text-field hint="Veuillez entrer votre mot de passe" clearable
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
+                            :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
                             prepend-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
                             :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"></v-text-field>
                         </v-row>
