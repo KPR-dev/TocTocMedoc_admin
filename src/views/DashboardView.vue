@@ -25,8 +25,8 @@
           <div class="pa-2">
             <v-divider></v-divider>
             <v-list density="compact" nav>
-              <v-list-item @click="deconDialog = true;" prepend-icon="mdi-logout" title="Se déconnecter"
-                style="color: rgb(221, 39, 15);" value="logout"></v-list-item>
+              <v-list-item @click="deconDialog=true" prepend-icon="mdi-logout" title="Se déconnecter"
+                style="color: rgb(221, 39, 15);" ></v-list-item>
             </v-list>
           </div>
         </template>
@@ -127,15 +127,9 @@
               </v-container>
             </v-card-text>
           </v-form>
-          <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
-            {{ snackbarText }}
-          </v-snackbar>
         </v-card>
       </v-dialog>
     </v-row>
-
-
-
   </v-card>
 </template>
 
@@ -148,26 +142,18 @@
 
 /* Ajoutez d'autres styles personnalisés selon vos besoins */
 
-
-.v-layout {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh; /* Ensure the container takes the full height of the viewport */
-}
-
 .logo-container {
-  text-align: right; /* Change from center to right */
+  text-align: center; /* Change from center to right */
   margin-right: 20px; /* Add margin for spacing */
 }
 
 .logo {
   width: 10rem;
   height: 90px;
-  margin-left: 50px; /* Add this line to ensure the logo is aligned to the right within its container */
+  margin-left: 40px; /* Add this line to ensure the logo is aligned to the right within its container */
 
 }
+
 .custom-snackbar {
   position: fixed;
   bottom: 90%;
@@ -184,21 +170,6 @@
   /* Change this to your desired navy blue color */
   color: white;
   /* Change this to the text color you want when the item is active */
-}
-.custom-dialog {
-  background: linear-gradient(to bottom, #87CEEB,);
-}
-
-.custom-card {
-  border-radius: 8px;
-}
-
-.custom-title {
-  color: #333;
-}
-
-.custom-text {
-  padding-bottom: 16px;
 }
 </style>
 <script>
