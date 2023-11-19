@@ -49,7 +49,7 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="editUser(item)"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; user = item.user;"></v-btn>
                 <v-spacer></v-spacer>
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
@@ -60,6 +60,8 @@
 
     </v-container>
   </v-container>
+
+
 
   <!-- modal d'ajout un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
   <v-row justify="center">
@@ -114,64 +116,142 @@
     </v-dialog>
   </v-row>
 
-  <v-form ref="form">
-    <v-card-title>
-      <span class="text-h6">Modification d'un utilisateur</span>
-    </v-card-title>
-    <v-card-text>
-      <v-container>
-        <v-row>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *" hint="Veuillez entrer le nom"
-              variant="outlined"></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
-              hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="user.phone" clearable :rules="rules" label="Télephone *"
-              hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-text-field v-model="user.email" clearable :rules="rules" label="Email *"
-              hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
-              variant="outlined"></v-select>
-          </v-col>
-        </v-row>
-      </v-container>
-      <small class="text-danger">*Champs obligatoire</small>
+  <!-- modal de modification d'un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
+  <v-row justify="center">
+    <v-dialog v-model="updateDialog" persistent width="1024">
+      <v-card>
+        <v-form ref="form">
+          <v-card-title>
+            <span class="text-h6">Modification d'un utilisateur</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
+                    hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
+                    hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field type="number" v-model="user.phone" clearable :rules="rules" label="Télephone *"
+                    hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.email" clearable :rules="rules" label="Email *"
+                    hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
+                    variant="outlined"></v-select>
+                </v-col>
 
-      </v-row>
-      </v-container>
-      
-      <v-btn color="blue-darken-1" variant="flat" @click="updated_user">
-        Modifier
-      </v-btn>
-      </v-card-actions>
-  </v-form>
-  <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
-    {{ snackbarText }}
-    <!-- <v-btn color="white" text @click="snackbar.show = false" prepend-icon="mdi-close"></v-btn> -->
-  </v-snackbar>
-  </v-card>
-  </v-dialog>
+              </v-row>
+            </v-container>
+            <small class="text-danger">*Champs obligatoire </small>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue-darken-1" variant="text" @click="annuler">
+              Annuler
+            </v-btn>
+            <v-btn color="blue-darken-1" variant="flat" @click="updated_user">
+              Modifier
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+        <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
+          {{ snackbarText }}
+          <!-- <v-btn color="white" text @click="snackbar.show = false" prepend-icon="mdi-close"></v-btn> -->
+        </v-snackbar>
+      </v-card>
+    </v-dialog>
 
-  <v-dialog v-model="dialogDelete" persistent max-width="600px">
-    <v-card>
-      <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir supprimer cet élément?</v-card-title>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="annuler">Annuler</v-btn>
-        <v-btn color="red" variant="flat" @click="deleteItemConfirm">Oui</v-btn>
-        <v-spacer></v-spacer>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-</v-row></template>
+    <v-dialog v-model="dialogDelete" persistent max-width="600px">
+      <v-card>
+        <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir supprimer cet élément?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue-darken-1" variant="text" @click="annuler">Annuler</v-btn>
+          <v-btn color="red" variant="flat" @click="deleteItemConfirm">Oui</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+  <v-row justify="center">
+    <v-dialog v-model="choiceDialog" persistent width="500">
+      <v-card>
+        <v-form ref="form">
+          <v-card-title>
+            <span class="text-h6">Faites un choix</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-btn color="blue-darken-1" variant="text" @click="updateDialog = true; user = item.user;">
+                Modifier utilisateur
+              </v-btn>
+              <v-btn color="blue-darken-1" variant="flat" @click="subDialog = true">
+                Faire un subscription
+              </v-btn>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue-darken-1" variant="text" @click="annuler1">
+              Annuler
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+        <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
+          {{ snackbarText }}
+          <!-- <v-btn color="white" text @click="snackbar.show = false" prepend-icon="mdi-close"></v-btn> -->
+        </v-snackbar>
+      </v-card>
+    </v-dialog>
+
+
+  </v-row>
+  <v-row justify="center">
+    <v-dialog v-model="subDialog" persistent width="400">
+      <v-card>
+        <v-form ref="form">
+          <v-card-title>
+            <span class="text-h6">Faites un choix</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-col cols="12" sm="10">
+                <v-select v-model="sub.id" :items="databaseOptions" label="Sélectionnez un tarif" item-title="libelle"
+                  hint="Veuillez sélectionner une option" variant="outlined" item-value="id"></v-select>
+              </v-col>
+
+
+            </v-container>
+
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue-darken-1" variant="text" @click="annuler2">
+              Annuler
+            </v-btn>
+            <v-btn color="blue-darken-1" variant="text" @click="validate_rate">
+              Valider
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+        <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
+          {{ snackbarText }}
+          <!-- <v-btn color="white" text @click="snackbar.show = false" prepend-icon="mdi-close"></v-btn> -->
+        </v-snackbar>
+      </v-card>
+    </v-dialog>
+
+
+  </v-row>
+</template>
 
 <style>
 .snackbar {
@@ -196,7 +276,7 @@ export default {
     snackbarText: '',
     snackbarColor: '',
     // Durée en millisecondes (6 secondes ici, ajustez-la selon vos besoins)
-    snackbarTimeout: 1000,
+    snackbarTimeout: 100,
     updateDialog: false,
     dialog: false,
     dialog_driver: false,
@@ -213,17 +293,19 @@ export default {
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       { key: "user.role", title: "Role" },
-      { key: "subscription_date", title: "Date de subscription" },
-      { key: "rate.libelle", title: "Son Tarif" },
+       { key: "subscription_date", title: "Subscription" },
+      { key: "rate.libelle", title: "Son tarif" },
       { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
     ],
     users: [],
+    userIds: [],
     user: {
       firstname: "",
       lastname: "",
       phone: "",
       email: "",
+      role: ""
     },
 
     roles: ['ADMIN', 'USER'],
@@ -303,8 +385,22 @@ export default {
     async get_user() {
       try {
         const response = await this.$axios.get("/account/all");
+        for (var i = 0; i < response.data.length; i++) {
+          response.data[i].subscription_date = this.formattedDate(
+            response.data[i].subscription_date
+          );
+          response.data[i].updated_at = this.formattedDate(
+            response.data[i].updated_at
+          );
+          response.data[i].created_at = this.formattedDate(
+            response.data[i].created_at
+          );
+        }
+
         this.users = response.data;
-        console.log('all users =', this.users); // Ajoutez cette ligne
+        this.userIds = this.users.map(user => user.id);
+        console.log('all users =', this.users);
+        console.log('all user_id =', this.userIds);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -319,8 +415,6 @@ export default {
           phone: this.user.phone,
           role: this.user.role,
           password: "root"
-          // created_at: this.user.created_at,
-          // updated_at: this.user.updated_at,
         };
         const response = await this.$axios.post("/user/add", Data);
         this.user = {};  // Effacez les données après l'ajout réussi
@@ -369,6 +463,7 @@ export default {
           this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
           this.showSnackbar('Utilisateur modifié avec succès', 'success');
           this.updateDialog = false;
+          this.choiceDialog = false;
           this.get_user();
         } catch (error) {
           console.error('Erreur lors de la mise à jour:', error);
@@ -406,7 +501,43 @@ export default {
 
 
 
-    }
+    },
+
+    async validate_rate() {
+      const { valid } = await this.$refs.form.validate();
+
+      if (valid) {
+        try {
+          console.log('rate id =', this.sub.id);
+
+          // Choisissez un utilisateur spécifique ou ajustez votre logique pour sélectionner le bon utilisateur
+          const userId = this.users[0].id;
+          console.log('user id =', userId);
+
+          const params = { rate_id: this.sub.id };
+          const response = await this.$axios.put(`/account/subscribe_rate/${userId}`, null, { params });
+
+          console.log('subscribe_rate user =', response.data);
+          this.sub = {}; // Effacez les données du conducteur après la mise à jour réussie
+          this.subDialog = false;
+          this.choiceDialog = false;
+          this.updateDialog = false;
+          this.choiceDialog = false;
+          this.get_user();
+        } catch (error) {
+          console.error('Erreur lors de la mise à jour:', error);
+          this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+        }
+      } else {
+        console.log("BAD !!!!");
+        this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+      }
+    },
+
+
+
+
+
 
   },
 

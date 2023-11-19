@@ -2,58 +2,54 @@
   <div>
     <div>
       <img src="@/assets/no.png" alt="Logo" class="app-logo" />
-    <v-card :elevation="80" :height="400" :width="800" rounded :loading="loading" class="card-container">
-      <v-progress-linear color="primary" v-if="loading" indeterminate></v-progress-linear>
-      <v-row align="center">
-        <v-col cols="12" md="6">
-          <v-container>
-            <v-responsive class="align-center text-center fill-height">
-              <v-img src="@/assets/frame.png" alt="Votre logo" class="logo"></v-img>
-            </v-responsive>
-          </v-container>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-container>
-            <v-responsive class="align-center text-center fill-height">
-              <v-row>
-                <v-col cols="10">
-                  <p class="text-medium-emphasis mt-2 custom-text">Connexion</p>
-                  <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
-                    {{ snackbarText }}
-                  </v-snackbar>
-                  <v-form ref="form">
-                    <v-container class="mt-4">
-                      <v-row>
-                        <v-col cols="12">
-                          <v-text-field hint="Veuillez entrer votre code utilisateur" clearable v-model="codeUser"
-                            label="Email" prepend-inner-icon="mdi mdi-account-key" variant="outlined"
+      <v-card :elevation="80" :height="400" :width="800" rounded :loading="loading" class="card-container">
+        <v-progress-linear color="primary" v-if="loading" indeterminate></v-progress-linear>
+        <v-row align="center">
+          <v-col cols="12" md="6">
+            <v-container>
+              <v-responsive class="align-center text-center fill-height">
+                <v-img src="@/assets/frame.png" alt="Votre logo" class="logo"></v-img>
+              </v-responsive>
+            </v-container>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-container>
+              <v-responsive class="align-center text-center fill-height">
+                <v-row>
+                  <v-col cols="10">
+                    <p class="text-medium-emphasis mt-2 custom-text">Connexion</p>
+                    <v-snackbar v-model="snackbar" :color="snackbarColor" class="snackbar">
+                      {{ snackbarText }}
+                    </v-snackbar>
+                    <v-form ref="form">
+                      <v-container class="mt-4">
+                        <v-row>
+                          <v-text-field hint="Veuillez entrer votre email" clearable v-model="codeUser"
+                            label="Email" prepend-icon="mdi mdi-account-key" variant="outlined"
                             :rules="codeUserRules"></v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="12">
+                        </v-row>
+                        <v-row>
                           <v-text-field hint="Veuillez entrer votre mot de passe" clearable
-                            :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
-                            prepend-inner-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
+                            prepend-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
                             :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"></v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="18">
-                          <v-btn width="1200" class="mt-3" @click="validate" :loading="loading">
-                            Connexion
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-form>
-                </v-col>
-              </v-row>
-            </v-responsive>
-          </v-container>
-        </v-col>
-      </v-row>
-    </v-card>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="18">
+                            <v-btn width="1200" class="mt-3" @click="validate" :loading="loading">
+                              Connexion
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-container>
+                    </v-form>
+                  </v-col>
+                </v-row>
+              </v-responsive>
+            </v-container>
+          </v-col>
+        </v-row>
+      </v-card>
     </div>
   </div>
 </template>
