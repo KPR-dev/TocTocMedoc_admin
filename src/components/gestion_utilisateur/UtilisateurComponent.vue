@@ -49,7 +49,7 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; user = item.user;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id ;  user = item.user;"></v-btn>
                 <v-spacer></v-spacer>
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
@@ -306,8 +306,9 @@ export default {
       lastname: "",
       phone: "",
       email: "",
-      role: ""
+      role: "",
     },
+    id_compte : "",
 
     roles: ['ADMIN', 'USER'],
     rules: [
@@ -451,6 +452,7 @@ export default {
         try {
           console.log('USER =', this.user);
           const requestData = {
+            // id_compte : this.id_compte,
             id: this.user.id,
             firstname: this.user.firstname,
             lastname: this.user.lastname,
@@ -458,6 +460,7 @@ export default {
             email: this.user.email,
             role: this.user.role,
           };
+          console.log('id_compte=',this.id_compte.id)
 
           const response = await this.$axios.put('/user/update/' + this.user.id, requestData);
           console.log('Update user =', response.data);
@@ -512,11 +515,11 @@ export default {
           console.log('rate id =', this.sub.id);
 
           // Choisissez un utilisateur spécifique ou ajustez votre logique pour sélectionner le bon utilisateur
-          const userId = this.users[0].id;
-          console.log('user id =', userId);
+          const IdCompte = this.id_compte;
+          console.log('id_compte =', IdCompte);
 
           const params = { rate_id: this.sub.id };
-          const response = await this.$axios.put(`/account/subscribe_rate/${userId}`, null, { params });
+          const response = await this.$axios.put(`/account/subscribe_rate/${IdCompte}`, null, { params });
 
           console.log('subscribe_rate user =', response.data);
           this.sub = {}; // Effacez les données du conducteur après la mise à jour réussie

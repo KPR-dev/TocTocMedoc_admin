@@ -9,8 +9,8 @@
             TABLEAU DE BORD
           </v-card-title><br>
           <v-card-subtitle>
-              Un aperçu rapide des données
-            </v-card-subtitle>
+            Un aperçu rapide des données
+          </v-card-subtitle>
         </template>
         <template v-slot:divider>
           <v-icon icon="mdi-chevron-left"></v-icon>
@@ -22,21 +22,20 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Factures" prepend-icon="mdi-wallet"
-              >
+            <!-- <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Factures" prepend-icon="mdi-wallet">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfFactures }}</h1>
               </div>
-            </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Utilisateurs" prepend-icon="mdi-account-multiple"
-              >
+            </v-card> -->
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Utilisateurs"
+              prepend-icon="mdi-account-multiple">
               <div class="mx-4 my-6">
                 <h1> {{ numberUsers }}</h1>
               </div>
             </v-card>
 
-            <v-card class="mx-4 my-6"  style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode" title="Grilles tarifaires"
-              >
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode"
+              title="Grilles tarifaires">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfRates }}</h1>
               </div>
