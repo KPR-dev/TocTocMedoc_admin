@@ -293,7 +293,7 @@ export default {
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       { key: "user.role", title: "Role" },
-       { key: "subscription_date", title: "Subscription" },
+      //  { key: "subscription_date", title: "Subscription" },
       { key: "rate.libelle", title: "Son tarif" },
       { key: "credit", title: "Credit" },
       { title: "Actions", key: "actions", sortable: false },
