@@ -12,10 +12,10 @@
           <v-divider></v-divider>
           <v-list-item to="/utilisateur" prepend-icon="mdi-account-multiple" title="Utilisateurs"
             value="utilisateur"></v-list-item>
-            <v-divider></v-divider>
-          <!-- <v-list-item to="/facture" prepend-icon="mdi-wallet" title="Facturations" value="facture"></v-list-item> -->
           <v-divider></v-divider>
-          <v-list-item to="/tarifaire" prepend-icon="mdi-barcode" title="Grille tarifaires" value="tarifaire"></v-list-item>
+          <v-list-item to="/tarifaire" prepend-icon="mdi-barcode" title="Tarification" value="tarifaire"></v-list-item>
+          <v-divider></v-divider>
+          <v-list-item to="/grille" prepend-icon="mdi-barcode" title="Grille tarifaires" value="grille"></v-list-item>
           <v-divider></v-divider>
           <v-list-item to="/historique" prepend-icon="mdi-history" title="Historique" value="historique"></v-list-item>
           <v-divider></v-divider>
