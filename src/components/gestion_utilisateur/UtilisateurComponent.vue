@@ -50,7 +50,9 @@
             <v-container>
               <v-row justify="center" align="center">
                 <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id ;  user = item.user;"></v-btn>
-                <v-spacer></v-spacer>
+
+              </v-row>
+              <v-row justify="center" align="center">
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
             </v-container>
@@ -356,21 +358,21 @@ export default {
       this.snackbar = true;
     },
 
-    annuler() {
-      // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
-      this.updateDialog = null;
-      this.choiceDialog = null; // ou this.updateDialog = "";
-      this.user = ""
-    },
+
+   annuler() {
+    //   // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
+       this.updateDialog = null;
+       this.choiceDialog = null;
+       this.dialogDelete = null;
+       this.user = "";
+     },
     annuler1() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
-
       this.choiceDialog = null; // ou this.updateDialog = "";
       this.user = ""
     },
     annuler2() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
-
       this.subDialog = null; // ou this.updateDialog = "";
       this.user = ""
     },
