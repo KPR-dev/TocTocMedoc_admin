@@ -49,8 +49,9 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id ;  user = item.user;"></v-btn>
-
+                 <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id ;  user = item.user;" :disabled="item.user.role === 'USER'"></v-btn>
+                <!-- <v-btn v-if="item.user.role !== 'USER'" prepend-icon="mdi-pencil"
+                  @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn> -->
               </v-row>
               <v-row justify="center" align="center">
                 <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
@@ -310,7 +311,7 @@ export default {
       email: "",
       role: "",
     },
-    id_compte : "",
+    id_compte: "",
 
     roles: ['ADMIN', 'USER'],
     rules: [
@@ -359,13 +360,13 @@ export default {
     },
 
 
-   annuler() {
-    //   // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
-       this.updateDialog = null;
-       this.choiceDialog = null;
-       this.dialogDelete = null;
-       this.user = "";
-     },
+    annuler() {
+      //   // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
+      this.updateDialog = null;
+      this.choiceDialog = null;
+      this.dialogDelete = null;
+      this.user = "";
+    },
     annuler1() {
       // Vous pouvez attribuer une nouvelle valeur vide (null ou "") à la variable updateDialog
       this.choiceDialog = null; // ou this.updateDialog = "";
@@ -462,7 +463,7 @@ export default {
             email: this.user.email,
             role: this.user.role,
           };
-          console.log('id_compte=',this.id_compte.id)
+          console.log('id_compte=', this.id_compte.id)
 
           const response = await this.$axios.put('/user/update/' + this.user.id, requestData);
           console.log('Update user =', response.data);
