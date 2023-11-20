@@ -73,7 +73,7 @@ export default {
   }),
   mounted() {
     this.get_rates();
-    this.get_factures();
+    // this.get_factures();
     this.get_users();
 
   },
@@ -87,10 +87,10 @@ export default {
       // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
       return this.users.length;
     },
-    numberOfFactures() {
-      // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
-      return this.factures.length;
-    },
+    // numberOfFactures() {
+    //   // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
+    //   return this.factures.length;
+    // },
     formattedDate() {
       return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
     },
@@ -112,13 +112,13 @@ export default {
         console.log('all rates =', response.data);
       });
     },
-    async get_factures() {
-      this.$axios.get("/facture/all").then((response) => {
-        this.factures = response.data;
+    // async get_factures() {
+    //   this.$axios.get("/facture/all").then((response) => {
+    //     this.factures = response.data;
 
-        console.log('all facture =', response.data);
-      });
-    },
+    //     console.log('all facture =', response.data);
+    //   });
+    // },
     async get_users() {
       try {
         const response = await this.$axios.get("/account/all");
