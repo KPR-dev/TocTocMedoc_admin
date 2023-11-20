@@ -176,7 +176,7 @@ export default {
           formData.append('password', this.password);
 
           await this.$axios
-            .post("/auth/login", formData)
+            .post("auth/login_admin", formData)
             .then((response) => {
               appStore.setLogged()
               appStore.getCurrentUser(response.data.user)
@@ -189,28 +189,28 @@ export default {
         }
         catch (error) {
           // console.log(error.response.data.detail) ;
-          const user = {
-            lastname: "TOCTOCMEDOC",
-            firstname: "TOCTOC",
-            email: "toctocmedoc@gmail.com",
-            code_user: "toctocmedoc",
-            direction_slug: 'ADMIN',
-            is_director: true,
-            entity_slug: 'ADMIN',
-            password: "root",
-            role: 'ADMIN',
-            attribution: 0
-          }
-          if (this.codeUser == "root" && this.password == "root") {
-            appStore.setLogged()
-            appStore.getCurrentUser(user)
-            this.loading = !this.loading
-            this.showSnackbar('Connexion réussie!', 'success');
-            this.$router.push('/home')
-          }
-          else {
+          // const user = {
+          //   lastname: "TOCTOCMEDOC",
+          //   firstname: "TOCTOC",
+          //   email: "toctocmedoc@gmail.com",
+          //   code_user: "toctocmedoc",
+          //   direction_slug: 'ADMIN',
+          //   is_director: true,
+          //   entity_slug: 'ADMIN',
+          //   password: "root",
+          //   role: 'ADMIN',
+          //   attribution: 0
+          // }
+          // if (this.codeUser == "root" && this.password == "root") {
+          //   appStore.setLogged()
+          //   appStore.getCurrentUser(user)
+          //   this.loading = !this.loading
+          //   this.showSnackbar('Connexion réussie!', 'success');
+          //   this.$router.push('/home')
+          // }
+
             this.showSnackbar('Erreur lors de la connexion coordonnées incorrect', 'error');
-          }
+
           this.error = error.response.data.detail;
         }
         this.loading = !this.loading
