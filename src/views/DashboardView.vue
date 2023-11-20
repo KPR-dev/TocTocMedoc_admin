@@ -122,7 +122,7 @@
             </v-card-title>
             <v-card-text class="custom-text">
               <v-container>
-                <v-btn class="ml-12" color="blue darken-1" @click="logout">Oui</v-btn>
+                <v-btn class="ml-12" color="red" @click="logout">Oui</v-btn>
                 <v-btn class="ml-12" color="blue darken-1" @click="non">Non</v-btn>
               </v-container>
             </v-card-text>
@@ -183,6 +183,7 @@ export default {
     drawer: true,
     show1: false,
     password_change: "",
+
     passwordRules: [(value) => !!value || "Veuillez entrer le nouveau un mot de passe"],
     rail: false,
     open: ['Users'],
@@ -202,6 +203,32 @@ export default {
   },
 
   methods: {
+
+    async validate_change() {
+      const { valid } = await this.$refs.form.validate();
+
+      if (valid) {
+        try {
+          // console.log('change password =', this.password_change);
+
+          const params = { new_password: this.password_change };
+
+          const response = await this.$axios.put(`/user/update_password/${this.currentUser.id}`, null, { params });
+
+          console.log('update_password =', response.data);
+          this.password_change = ''; // Réinitialisez le mot de passe après la mise à jour réussie
+          this.showSnackbar('Mot de passe modifié avec succès', 'success');
+          this.dialog_change = false;
+          this.$router.push('/connexion')
+        } catch (error) {
+          console.error('Erreur lors de la mise à jour du mot de passe:', error);
+          this.showSnackbar('Une erreur s\'est produite lors de la modification du mot de passe...', 'error');
+        }
+      } else {
+        console.log("BAD !!!");
+        this.showSnackbar('Une erreur s\'est produite lors de la modification du mot de passe....', 'error');
+      }
+    },
 
     handleResize() {
       // Utilisez des breakpoints pour activer/désactiver le rail en fonction de la largeur de l'écran
