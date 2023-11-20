@@ -20,7 +20,7 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" title="Tarifs" prepend-icon="mdi-barcode" style="background: #CEE5FF;">
+            <v-card class="mx-4 my-6" width="300" title="Tarifs" prepend-icon="mdi-list-box" style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1> {{ Rate }}</h1>
               </div>
@@ -30,7 +30,7 @@
         <!-- <v-btn color="success" prepend-icon="mdi-plus-circle" @click="dialog = true">
           Ajouter un véhicule
         </v-btn> -->
-        <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter un tarif" prepend-icon="mdi-barcode"
+        <v-card class="mx-4 my-6" type="button" width="300" title="Ajouter un tarif" prepend-icon="mdi-list-box"
           @click="dialog = true" style="background: #00639A; color: white;">
           <div>
             <h1> <svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
