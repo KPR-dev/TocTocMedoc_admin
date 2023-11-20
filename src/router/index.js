@@ -21,6 +21,12 @@ const routes = [
         import( /* webpackChunkName: "home" */ '@/views/gestion_utilisateur/UtilisateurView.vue'),
     },
     {
+      path: 'administrateur',
+      name: 'Administrateur',
+      component: () =>
+        import( /* webpackChunkName: "home" */ '@/views/gestion_utilisateur/AdministrateurView.vue'),
+    },
+    {
       path: 'facture', // Modifier le chemin vers '/accueil1' ou tout autre chemin unique
       name: 'Facture',
       component: () =>
@@ -44,6 +50,7 @@ const routes = [
       component: () =>
           import ( /* webpackChunkName: "home" */ '@/views/grille.vue'),
   },
+
 
 
     ]

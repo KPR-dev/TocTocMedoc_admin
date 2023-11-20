@@ -6,7 +6,7 @@
         <template v-slot:prepend>
           <v-icon size="small" icon="mdi-account-group"></v-icon>
           <v-card-title color="primary">
-            Utilisateurs
+            Administrateur
           </v-card-title>
         </template>
         <template v-slot:divider>
@@ -19,7 +19,7 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" title="Utilisateurs" prepend-icon="mdi-account-group"
+            <v-card class="mx-4 my-6" width="300" title="Administrateurs" prepend-icon="mdi-account-group"
               style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1>{{ numberusers }}</h1>
@@ -27,7 +27,7 @@
             </v-card>
           </div>
         </div>
-        <!-- <v-card class="mx-4 my-6" width="300" title="Ajouter un utilisateur" prepend-icon="mdi-account-group"
+        <v-card class="mx-4 my-6" width="300" title="Ajouter un Admin" prepend-icon="mdi-account-group"
           @click="dialog = true" style="background: #00639A; color: white;">
           <div>
             <h1><svg xmlns="http://www.w3.org/2000/svg" width="57" height="56" viewBox="0 0 57 56" fill="none">
@@ -36,13 +36,13 @@
                   fill="#E8E5FF" />
               </svg></h1>
           </div>
-        </v-card> -->
+        </v-card>
       </v-row>
 
       <v-card class="mx-auto mt-8">
         <v-btn prepend-icon="mdi-reload" color="blue" @click="get_user"><v-span>Actualiser</v-span></v-btn>
         <v-card-title>
-          Liste des utilisateurs
+          Liste des Administrateurs
           <v-spacer></v-spacer>
           <v-text-field v-model="search" label="Recherche" single-line hide-details variant="outlined"></v-text-field>
         </v-card-title>
@@ -50,13 +50,14 @@
         <v-data-table :headers="headers" :items="users" :search="search" items-per-page="5">
           <template v-slot:item.actions="{ item }">
             <v-container>
-              <!-- <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id; user = item.user;"
-                  :disabled="item.user.role === 'USER'"></v-btn>
-              </v-row> -->
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
+                <v-btn prepend-icon="mdi-pencil"
+                  @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn>
+                <!-- <v-btn v-if="item.user.role !== 'USER'" prepend-icon="mdi-pencil"
+                  @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn> -->
+                  <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
+              
             </v-container>
           </template>
         </v-data-table>
@@ -67,13 +68,13 @@
 
 
 
-  <!-- modal d'ajout un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
+  <!-- modal d'ajout un Administrateur------------------------------------------------------------------------------------------------------------------------------------------>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent width="1024">
       <v-card>
         <v-form ref="form">
           <v-card-title>
-            <span class="text-h6">Ajouter un utilisateur</span>
+            <span class="text-h6">Ajouter un Administrateur</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -95,8 +96,8 @@
                     hint="Veuillez entrer un email valide" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field v-model="user.role" clearable :rules="rules" label="Rôle *"
-                    hint="Veuillez sélectionner un rôle" disabled variant="outlined"></v-text-field>
+                  <v-select v-model="user.role" :items="roles" label="Rôle *" hint="Veuillez sélectionner un rôle"
+                    variant="outlined"></v-select>
                 </v-col>
               </v-row>
             </v-container>
@@ -120,13 +121,13 @@
     </v-dialog>
   </v-row>
 
-  <!-- modal de modification d'un utilisateur------------------------------------------------------------------------------------------------------------------------------------------>
+  <!-- modal de modification d'un Administrateur------------------------------------------------------------------------------------------------------------------------------------------>
   <v-row justify="center">
     <v-dialog v-model="updateDialog" persistent width="1024">
       <v-card>
         <v-form ref="form">
           <v-card-title>
-            <span class="text-h6">Modification d'un utilisateur</span>
+            <span class="text-h6">Modification d'un Administrateur</span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -186,7 +187,7 @@
     </v-dialog>
   </v-row>
   <v-row justify="center">
-    <v-dialog v-model="choiceDialog" persistent width="500">
+    <v-dialog v-model="choiceDialog" persistent width="600">
       <v-card>
         <v-form ref="form">
           <v-card-title>
@@ -195,7 +196,7 @@
           <v-card-text>
             <v-container>
               <v-btn color="blue-darken-1" variant="text" @click="updateDialog = true; user = item.user;">
-                Modifier utilisateur
+                Modifier Administrateur
               </v-btn>
               <v-btn color="blue-darken-1" variant="flat" @click="subDialog = true">
                 Faire un subscription
@@ -310,11 +311,11 @@ export default {
       lastname: "",
       phone: "",
       email: "",
-      role: "USER",
+      role: "",
     },
     id_compte: "",
 
-    // roles: ['USER'],
+    roles: ['ADMIN', 'USER'],
     rules: [
       (v) => !!v || 'Ce champ est requis', // Add any validation rules you need
     ],
@@ -390,7 +391,7 @@ export default {
 
     async get_user() {
       try {
-        const response = await this.$axios.get("/account/get_by_role_user");
+        const response = await this.$axios.get("/account/get_by_role_admin");
         for (var i = 0; i < response.data.length; i++) {
           response.data[i].subscription_date = this.formattedDate(
             response.data[i].subscription_date

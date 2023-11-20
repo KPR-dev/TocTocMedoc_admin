@@ -10,6 +10,9 @@
         <v-list density="compact" nav>
           <v-list-item to="/home" prepend-icon="mdi-grid" title="Tableau de bord" value="home"></v-list-item>
           <v-divider></v-divider>
+          <v-list-item to="/administrateur" prepend-icon="mdi-account-multiple" title="administrateurs"
+            value="administrateur"></v-list-item>
+          <v-divider></v-divider>
           <v-list-item to="/utilisateur" prepend-icon="mdi-account-multiple" title="Utilisateurs"
             value="utilisateur"></v-list-item>
           <v-divider></v-divider>
