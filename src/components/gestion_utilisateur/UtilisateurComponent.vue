@@ -38,7 +38,9 @@
           </div>
         </v-card>
       </v-row>
+
       <v-card class="mx-auto mt-8">
+        <v-btn prepend-icon="mdi-reload" color="blue" @click="get_user"><v-span>Actualiser</v-span></v-btn>
         <v-card-title>
           Liste des utilisateurs
           <v-spacer></v-spacer>
@@ -49,7 +51,8 @@
           <template v-slot:item.actions="{ item }">
             <v-container>
               <v-row justify="center" align="center">
-                 <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id ;  user = item.user;" :disabled="item.user.role === 'USER'"></v-btn>
+                <v-btn prepend-icon="mdi-pencil" @click="choiceDialog = true; id_compte = item.id; user = item.user;"
+                  :disabled="item.user.role === 'USER'"></v-btn>
                 <!-- <v-btn v-if="item.user.role !== 'USER'" prepend-icon="mdi-pencil"
                   @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn> -->
               </v-row>
