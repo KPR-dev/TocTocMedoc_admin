@@ -24,13 +24,12 @@
                     <v-form ref="form">
                       <v-container class="mt-4">
                         <v-row>
-                          <v-text-field hint="Veuillez entrer votre email" clearable v-model="codeUser"
-                            label="Email" prepend-icon="mdi mdi-account-key" variant="outlined"
-                            :rules="codeUserRules"></v-text-field>
+                          <v-text-field hint="Veuillez entrer votre email" clearable v-model="codeUser" label="Email"
+                            prepend-icon="mdi mdi-account-key" variant="outlined" :rules="codeUserRules"></v-text-field>
                         </v-row>
                         <v-row>
                           <v-text-field hint="Veuillez entrer votre mot de passe" clearable
-                            :append-inner-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'" v-model="password" label="Mot de passe"
                             prepend-icon="mdi mdi-lock" variant="outlined" :rules="passwordRules"
                             :type="show1 ? 'text' : 'password'" @click:append="show1 = !show1"></v-text-field>
                         </v-row>
