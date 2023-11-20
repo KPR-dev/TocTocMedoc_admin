@@ -38,6 +38,12 @@ const routes = [
       component: () =>
         import( /* webpackChunkName: "home" */ '@/views/HistoriqueView.vue'),
     },
+    {
+      path: 'grille',
+      name: 'grille',
+      component: () =>
+          import ( /* webpackChunkName: "home" */ '@/views/grille.vue'),
+  },
 
 
     ]
