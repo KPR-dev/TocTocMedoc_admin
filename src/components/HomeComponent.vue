@@ -35,9 +35,15 @@
             </v-card>
 
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode"
-              title="Grilles tarifaires">
+              title="Tarification">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfRates }}</h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode"
+              title="Grille tarifaire">
+              <div class="mx-4 my-6">
+                <h1>{{ numbergrille }}</h1>
               </div>
             </v-card>
           </div>
@@ -67,13 +73,13 @@ export default {
     search: "",
 
     rates: [],
-    factures: [],
+    grilles: [],
     users: [],
     resultats: {},
   }),
   mounted() {
     this.get_rates();
-    // this.get_factures();
+    this.get_tarif();
     this.get_users();
 
   },
@@ -87,10 +93,10 @@ export default {
       // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
       return this.users.length;
     },
-    // numberOfFactures() {
-    //   // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
-    //   return this.factures.length;
-    // },
+    numbergrille() {
+      // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
+      return this.grilles.length;
+    },
     formattedDate() {
       return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
     },
@@ -112,13 +118,27 @@ export default {
         console.log('all rates =', response.data);
       });
     },
-    // async get_factures() {
-    //   this.$axios.get("/facture/all").then((response) => {
-    //     this.factures = response.data;
+    async get_tarif() {
+      try {
+        const response = await this.$axios.get("/price_list/all");
+        for (var i = 0; i < response.data.length; i++) {
+          response.data[i].subscription_date = this.formattedDate(
+            response.data[i].subscription_date
+          );
+          response.data[i].updated_at = this.formattedDate(
+            response.data[i].updated_at
+          );
+          response.data[i].created_at = this.formattedDate(
+            response.data[i].created_at
+          );
+        }
+        this.grilles = response.data;
+        console.log('all tarifs =', this.grilles);
 
-    //     console.log('all facture =', response.data);
-    //   });
-    // },
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    },
     async get_users() {
       try {
         const response = await this.$axios.get("/account/all");
