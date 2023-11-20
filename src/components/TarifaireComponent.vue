@@ -4,9 +4,9 @@
     <v-row>
       <v-breadcrumbs :items="items">
         <template v-slot:prepend>
-          <v-icon size="small" icon="mdi-barcode"></v-icon>
+          <v-icon size="small" icon="mdi-list-box"></v-icon>
           <v-card-title color="primary">
-            Grille Tarifaire
+            Tarification
           </v-card-title>
         </template>
         <template v-slot:divider>
