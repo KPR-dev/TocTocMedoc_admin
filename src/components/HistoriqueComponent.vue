@@ -54,6 +54,7 @@
 
     <div>
       <v-card class="mx-auto mt-8" max-width="1250">
+        <v-btn prepend-icon="mdi-reload" color="blue" @click="get_events"><v-span>Actualiser</v-span></v-btn>
         <v-card-title>
           Toute l'historique
           <v-spacer></v-spacer>
