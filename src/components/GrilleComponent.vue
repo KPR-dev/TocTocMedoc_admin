@@ -40,6 +40,7 @@
 
       </v-row>
       <v-card class="mx-auto mt-8">
+        <v-btn prepend-icon="mdi-reload" color="blue" @click="get_tarif"><v-span>Actualiser</v-span></v-btn>
         <v-card-title>
           Liste des tarifs
           <v-spacer></v-spacer>
