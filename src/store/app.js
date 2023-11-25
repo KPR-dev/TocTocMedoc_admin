@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    isLogged: false,
+    // isLogged: false,
+    isLogged: true,
     currentUser: {},
     token: String,
   }),
@@ -22,7 +23,7 @@ export const useAppStore = defineStore('app', {
     logout() {
       this.currentUser = {}
       this.isLogged = !this.isLogged
-      
+
     },
     setLogged() {
       this.isLogged = !this.isLogged
