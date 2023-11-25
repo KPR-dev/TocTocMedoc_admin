@@ -24,9 +24,10 @@
           <div class="d-flex flex-wrap justify-content-between">
             <!-- <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Factures" prepend-icon="mdi-wallet">
               <div class="mx-4 my-6">
-                <h1> {{ numberOfFactures }}</h1>
+                <h1> </h1>
               </div>
             </v-card> -->
+
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Utilisateurs"
               prepend-icon="mdi-account-multiple">
               <div class="mx-4 my-6">
@@ -44,6 +45,24 @@
               title="Grille tarifaire">
               <div class="mx-4 my-6">
                 <h1>{{ numbergrille }}</h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total inscrit"
+              prepend-icon="mdi-wallet">
+              <div class="mx-4 my-6">
+                <h1>{{ numberOfInscription }}</h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total Connexion"
+              prepend-icon="mdi-wallet">
+              <div class="mx-4 my-6">
+                <h1> {{ numberOfconnexion }} </h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total vérification"
+              prepend-icon="mdi-wallet">
+              <div class="mx-4 my-6">
+                <h1> {{ numberOfverification }} </h1>
               </div>
             </v-card>
           </div>
@@ -75,15 +94,36 @@ export default {
     rates: [],
     grilles: [],
     users: [],
+    events: [],
+    events_entity: [],
     resultats: {},
   }),
   mounted() {
     this.get_rates();
     this.get_tarif();
     this.get_users();
+    this.get_events();
 
   },
   computed: {
+    numberOfInscription() {
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
+      const accountsEvents = this.events_entity.filter(event => event.action === 'Création d\'un compte');
+      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
+      return accountsEvents.length;
+    },
+    numberOfconnexion() {
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
+      const loginEvents = this.events_entity.filter(event => event.action === 'Authentification');
+      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
+      return loginEvents.length;
+    },
+    numberOfverification() {
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
+      const verificationEvents = this.events_entity.filter(event => event.action === 'Disponibilité d\'un produit');
+      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
+      return verificationEvents.length;
+    },
     numberOfRates() {
       // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
       return this.rates.length;
@@ -102,6 +142,20 @@ export default {
     },
   },
   methods: {
+    async get_events() {
+      this.$axios.get("/event/stat").then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          response.data[i].date_time = this.formattedDate(
+            response.data[i].date_time
+          );
+          response.data[i].created_at = this.formattedDate(
+            response.data[i].created_at
+          );
+        }
+        this.events_entity = response.data;
+        console.log('all events stat =', response.data);
+      });
+    },
     async get_rates() {
       this.$axios.get("/rate/all").then((response) => {
         for (var i = 0; i < response.data.length; i++) {
