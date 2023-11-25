@@ -57,7 +57,7 @@
                   @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn> -->
                   <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
-              
+
             </v-container>
           </template>
         </v-data-table>
