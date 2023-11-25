@@ -108,9 +108,10 @@ export default {
   computed: {
     numberOfInscription() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
-      const accountsEvents = this.events_entity.filter(event => event.action === 'Création d\'un compte');
+      // const accountsEvents = this.events_entity.filter(event => event.action === 'Création d\'un compte');
       // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
-      return accountsEvents.length;
+      // return accountsEvents.length;
+      return this.users.length;
     },
     numberOfconnexion() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
