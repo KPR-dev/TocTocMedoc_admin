@@ -5,5 +5,5 @@
   RewriteRule ^index\.html$ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /votre-projet/index.html [L]
+  RewriteRule . /admin.toctocmedoc.com/index.html [L]
 </IfModule>
