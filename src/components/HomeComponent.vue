@@ -28,41 +28,53 @@
               </div>
             </v-card> -->
 
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Utilisateurs"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="200" title="Utilisateurs"
               prepend-icon="mdi-account-multiple">
               <div class="mx-4 my-6">
                 <h1> {{ numberUsers }}</h1>
               </div>
             </v-card>
 
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" prepend-icon="mdi-barcode"
               title="Tarification">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfRates }}</h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" prepend-icon="mdi-barcode"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" prepend-icon="mdi-barcode"
               title="Grille tarifaire">
               <div class="mx-4 my-6">
                 <h1>{{ numbergrille }}</h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total inscrit"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total inscrit"
               prepend-icon="mdi-wallet">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfInscription }}</h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total Connexion"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total Connexion"
               prepend-icon="mdi-wallet">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfconnexion }} </h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="300" title="Total vérification"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total vérification"
               prepend-icon="mdi-wallet">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfverification }} </h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="255" title="Total souscription"
+              prepend-icon="mdi-barcode">
+              <div class="mx-4 my-6">
+                <h1> {{ numberOfsouscription }} </h1>
+              </div>
+            </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="255" title="Total reservation"
+              prepend-icon="mdi mdi-cart-outline">
+              <div class="mx-4 my-6">
+                <h1> 0 </h1>
               </div>
             </v-card>
           </div>
@@ -118,6 +130,12 @@ export default {
       const loginEvents = this.events_entity.filter(event => event.action === 'Authentification');
       // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
       return loginEvents.length;
+    },
+    numberOfsouscription() {
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
+      const souscriptionEvents = this.events_entity.filter(event => event.action === 'Souscription à une tarification');
+      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
+      return souscriptionEvents.length;
     },
     numberOfverification() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
@@ -196,7 +214,7 @@ export default {
     },
     async get_users() {
       try {
-        const response = await this.$axios.get("/account/all");
+        const response = await this.$axios.get("/account/get_by_role_user");
         this.users = response.data;
         console.log('all users =', this.users);
       } catch (error) {
