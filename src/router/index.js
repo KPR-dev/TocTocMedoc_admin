@@ -52,8 +52,6 @@ const routes = [
           import ( /* webpackChunkName: "home" */ '@/views/grille.vue'),
   },
 
-
-
     ]
   },
 

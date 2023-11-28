@@ -55,7 +55,7 @@
                   :disabled="item.user.role === 'USER'"></v-btn>
               </v-row> -->
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
+                <v-btn prepend-icon="mdi-account-off" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
             </v-container>
           </template>
@@ -175,7 +175,7 @@
 
     <v-dialog v-model="dialogDelete" persistent max-width="600px">
       <v-card>
-        <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir supprimer cet élément?</v-card-title>
+        <v-card-title class="text-h6">Êtes-vous sûr de bien vouloir désactiver ce compte?</v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue-darken-1" variant="text" @click="annuler">Annuler</v-btn>

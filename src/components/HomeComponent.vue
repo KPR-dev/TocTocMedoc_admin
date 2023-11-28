@@ -35,7 +35,7 @@
               </div>
             </v-card>
 
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" prepend-icon="mdi-barcode"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" prepend-icon="mdi-list-box"
               title="Tarification">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfRates }}</h1>
@@ -48,33 +48,33 @@
               </div>
             </v-card>
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total inscrit"
-              prepend-icon="mdi-wallet">
+              prepend-icon="mdi-account-multiple-check">
               <div class="mx-4 my-6">
                 <h1>{{ numberOfInscription }}</h1>
               </div>
             </v-card>
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total Connexion"
-              prepend-icon="mdi-wallet">
+              prepend-icon="mdi-account-clock-outline">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfconnexion }} </h1>
               </div>
             </v-card>
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="245" title="Total vérification"
-              prepend-icon="mdi-wallet">
+              prepend-icon="mdi-check-circle">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfverification }} </h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="255" title="Total souscription"
-              prepend-icon="mdi-barcode">
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="285" title="Montant souscription"
+              prepend-icon="mdi-credit-card-plus">
               <div class="mx-4 my-6">
-                <h1> {{ numberOfsouscription }} </h1>
+                <h1> {{ numberOfsouscription }} FCFA</h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="255" title="Total reservation"
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="285" title="Montant reservation"
               prepend-icon="mdi mdi-cart-outline">
               <div class="mx-4 my-6">
-                <h1> 0 </h1>
+                <h1> 0 FCFA</h1>
               </div>
             </v-card>
           </div>
@@ -135,8 +135,10 @@ export default {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
       const souscriptionEvents = this.events_entity.filter(event => event.action === 'Souscription à une tarification');
       // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
-      return souscriptionEvents.length;
+      const numberOfSouscription = souscriptionEvents.length;
+      return numberOfSouscription;
     },
+
     numberOfverification() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
       const verificationEvents = this.events_entity.filter(event => event.action === 'Disponibilité d\'un produit');
