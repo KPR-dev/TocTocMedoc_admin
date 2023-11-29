@@ -1,7 +1,0 @@
-RewriteEngine On
-RewriteBase /
-RewriteCond %{ENV:HTTP} !on [NC]
-RewriteRule ^(.*)$ http://admin.toctocmedoc.com/$1 [R,L]
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.html [L]
