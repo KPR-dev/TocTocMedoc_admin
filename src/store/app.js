@@ -3,14 +3,26 @@ import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    //  isLogged: false,
-     isLogged: true,
+    isLogged: false,
     currentUser: {},
     token: String,
+    authenticated: false,
   }),
 
+  getters: {
+    authenticated(state) {
+      return state.authenticated
+    },
+  },
+  mutations: {
+    setAuthenticated(state, value) {
+      state.authenticated = true
+      window.localStorage.setItem('test session', JSON.stringify(value))
+    },
+  },
 
   actions: {
+
     logout() {
       this.currentUser = {}
       this.isLogged = !this.isLogged

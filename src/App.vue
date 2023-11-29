@@ -3,23 +3,24 @@
 </template>
 
 <script>
- import { useAppStore } from './store/app'
+import { useAppStore } from './store/app'
 
 
 export default {
-    methods: {
-      getAuthencated() {
-        const appStore = useAppStore();
-        if (!appStore.isLogged) {
-          this.$router.push('/connexion')
-        }
+  methods: {
+    getAuthencated() {
+      const appStore = useAppStore();
 
+      // Vérifier si l'utilisateur est authentifié localement
 
+      if (!appStore.isLogged) {
+        this.$router.push('/connexion')
       }
-    },
-    beforeMount() {
-      this.getAuthencated()
     }
+  },
+  beforeMount() {
+    this.getAuthencated()
   }
+}
 
 </script>

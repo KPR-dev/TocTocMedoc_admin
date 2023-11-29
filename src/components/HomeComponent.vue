@@ -115,9 +115,13 @@ export default {
     this.get_tarif();
     this.get_users();
     this.get_events();
+    
+
+
 
   },
   computed: {
+
     numberOfInscription() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
       // const accountsEvents = this.events_entity.filter(event => event.action === 'Création d\'un compte');

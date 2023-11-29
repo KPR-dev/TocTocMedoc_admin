@@ -140,6 +140,9 @@ export default {
   }),
 
 
+
+
+
   methods: {
     showSnackbar(text, color) {
       this.snackbarText = text;
@@ -168,9 +171,12 @@ export default {
               appStore.getCurrentUser(response.data.user)
               this.role_user = response.data.user.role
               this.$updateToken(response.data.token.access_token);
+              const value = response.data
+              console.log('value =', value)
               // Stocker le jeton d'authentification dans le stockage local
-              localStorage.setItem("authToken", response.data.token.access_token);
-              console.log('localstorage =',localStorage)
+              window.localStorage.setItem("authToken", JSON.stringify(response.data.token.access_token));
+              console.log('localstorage =', localStorage)
+
               this.$router.push('/home')
               console.log("role_user=", this.role_user)
               this.showSnackbar('Connexion réussie!', 'success');
