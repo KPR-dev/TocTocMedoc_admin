@@ -115,7 +115,7 @@ export default {
     this.get_tarif();
     this.get_users();
     this.get_events();
-    
+
 
 
 
@@ -136,12 +136,15 @@ export default {
       return loginEvents.length;
     },
     numberOfsouscription() {
-      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
-      const souscriptionEvents = this.events_entity.filter(event => event.action === 'Souscription à une tarification');
-      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
-      const numberOfSouscription = souscriptionEvents.length;
-      return numberOfSouscription;
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts' avec un montant défini
+      const souscriptionEvents = this.events_entity.filter(event => event.amount !== undefined && event.amount !== null);
+
+      // Utilisez la méthode reduce pour additionner tous les montants
+      const totalAmount = souscriptionEvents.reduce((acc, event) => acc + event.amount, 0);
+
+      return totalAmount;
     },
+
 
     numberOfverification() {
       // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
