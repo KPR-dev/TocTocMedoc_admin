@@ -184,11 +184,12 @@
 <script>
 import { useAppStore } from "../store/app";
 const appStore = useAppStore();
+import local from "@/storage/local";
 
 export default {
 
   data: () => ({
-    currentUser: appStore.currentUser,
+    currentUser: '',
     drawer: true,
     show1: false,
     password_change: "",
@@ -209,6 +210,8 @@ export default {
     // Écoute les changements de la largeur de l'écran et met à jour l'état de la navigation
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
+    const users = local.getSharedData()
+    this.currentUser = users.user
   },
 
   methods: {
@@ -257,6 +260,7 @@ export default {
     async logout() {
       console.log("logout");
       appStore.logout();
+      local.clearSharedData()
       this.$router.push('/connexion');
     },
     showSnackbar(text, color) {

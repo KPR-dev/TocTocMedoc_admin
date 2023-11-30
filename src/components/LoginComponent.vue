@@ -119,6 +119,7 @@
 <script>
 import { useAppStore } from '../store/app'
 const appStore = useAppStore();
+import local from '../storage/local'
 
 export default {
   data: () => ({
@@ -174,7 +175,7 @@ export default {
               const value = response.data
               console.log('value =', value)
               // Stocker le jeton d'authentification dans le stockage local
-              window.localStorage.setItem("authToken", JSON.stringify(response.data.token.access_token));
+              local.setSharedData(response.data)
               console.log('localstorage =', localStorage)
 
               this.$router.push('/home')
