@@ -22,9 +22,16 @@ export const useAppStore = defineStore('app', {
             console.log('storevapp = ', value)
             window.localStorage.setItem('test session', JSON.stringify(value))
         },
+        setToken(state, token) {
+          state.token = token;
+        },
     },
 
     actions: {
+
+      setToken(token) {
+        this.setToken(token);
+      },
 
         logout() {
             this.currentUser = {}

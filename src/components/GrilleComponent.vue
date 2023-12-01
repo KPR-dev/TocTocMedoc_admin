@@ -19,8 +19,7 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" title="Grilles" prepend-icon="mdi-barcode"
-              style="background: #CEE5FF;">
+            <v-card class="mx-4 my-6" width="300" title="Grilles" prepend-icon="mdi-barcode" style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1>{{ numbergrille }}</h1>
               </div>
@@ -173,6 +172,7 @@
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import moment from "moment";
+import local from "@/storage/local";
 
 export default {
   components: {
@@ -290,23 +290,36 @@ export default {
       }
     },
     async add_tarif() {
-      try {
-        const Data = {
+      const accessToken = local.getSharedData();
 
-          libelle: this.user.libelle,
-          credit: this.user.credit,
-
+      console.log("accessToken", accessToken.token);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
         };
-        const response = await this.$axios.post("/price_list/add", Data);
-        this.user = {};  // Effacez les données après l'ajout réussi
-        console.log('Add user =', response.Data);
-        this.get_tarif();  // Rafraîchissez la liste des Grilles
-        this.showSnackbar('Grille ajouté avec succès', 'success');
-        this.dialog = false;
-      } catch (error) {
-        console.error('Error adding user:', error);
-        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de la grille, veuillez vérifier les champs', 'error');
+
+        console.log("entete", headers);
+        try {
+          const Data = {
+
+            libelle: this.user.libelle,
+            credit: this.user.credit,
+
+          };
+          const response = await this.$axios.post("/price_list/add", Data, {
+            headers: headers,
+          });
+          this.user = {};  // Effacez les données après l'ajout réussi
+          console.log('Add user =', response.Data);
+          this.get_tarif();  // Rafraîchissez la liste des Grilles
+          this.showSnackbar('Grille ajouté avec succès', 'success');
+          this.dialog = false;
+        } catch (error) {
+          console.error('Error adding user:', error);
+          this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de la grille, veuillez vérifier les champs', 'error');
+        }
       }
+
     },
 
     async validate() {
@@ -325,61 +338,86 @@ export default {
     },
 
     async updated_tarif() {
-      const { valid } = await this.$refs.form.validate();
+      const accessToken = local.getSharedData();
 
-      if (valid) {
-        try {
-          console.log('USER =', this.user);
-          const requestData = {
-            // id_compte : this.id_compte,
-            id: this.user.id,
-            libelle: this.user.libelle,
-            credit: this.user.credit,
+      console.log("accessToken", accessToken.token);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
 
-          };
-          console.log('id_compte=', this.id_compte.id)
+        console.log("entete", headers);
+        const { valid } = await this.$refs.form.validate();
 
-          const response = await this.$axios.put('/price_list/update/' + this.user.id, requestData);
-          console.log('Update grille =', response.data);
-          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.showSnackbar('Grille modifié avec succès', 'success');
-          this.updateDialog = false;
-          this.get_tarif();
-        } catch (error) {
-          console.error('Erreur lors de la mise à jour:', error);
+        if (valid) {
+          try {
+            console.log('USER =', this.user);
+            const requestData = {
+              // id_compte : this.id_compte,
+              id: this.user.id,
+              libelle: this.user.libelle,
+              credit: this.user.credit,
+
+            };
+            console.log('id_compte=', this.id_compte.id)
+
+            const response = await this.$axios.put('/price_list/update/' + this.user.id, requestData, {
+              headers: headers,
+            });
+            console.log('Update grille =', response.data);
+            this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
+            this.showSnackbar('Grille modifié avec succès', 'success');
+            this.updateDialog = false;
+            this.get_tarif();
+          } catch (error) {
+            console.error('Erreur lors de la mise à jour:', error);
+            this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+          }
+        } else {
+          console.log("BAD !!!!");
           this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
         }
-      } else {
-        console.log("BAD !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
       }
+
     },
 
     deleteItemConfirm() {
+      const accessToken = local.getSharedData();
+
+      console.log("accessToken", accessToken.token);
       console.log('user =', this.user);
-      const requestData = {
-        id: this.user.id,
-        libelle: this.user.libelle,
-        credit: this.user.credit,
 
-      };
-      this.$axios.delete('/price_list/delete/' + this.user.id, requestData)
-        .then(() => {
-          this.showSnackbar('Grille supprimé avec succès', 'success');
-          this.get_tarif(); // Rafraîchit la liste des Grilles après la suppression
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
+
+        console.log("entete", headers);
+
+        this.$axios.delete(`/price_list/delete/${this.user.id}`, {
+          headers: headers,
+          // Supprimez cette partie si le serveur n'accepte pas de corps dans une requête DELETE
+          data: {
+            id: this.user.id,
+            libelle: this.user.libelle,
+            credit: this.user.credit,
+          },
         })
-        .catch((error) => {
-          console.error('Erreur lors de la suppression du Grille:', error);
-          this.showSnackbar('Erreur lors de la suppression du Grille', 'error');
-        })
-        .finally(() => {
-          this.user = {};
-          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
-        });
-
-
-
+          .then(() => {
+            this.showSnackbar('Grille supprimé avec succès', 'success');
+            this.get_tarif(); // Rafraîchit la liste des Grilles après la suppression
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la suppression du Grille:', error);
+            this.showSnackbar('Erreur lors de la suppression du Grille', 'error');
+          })
+          .finally(() => {
+            this.user = {};
+            this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
+          });
+      }
     },
+
 
     async validate_rate() {
       const { valid } = await this.$refs.form.validate();

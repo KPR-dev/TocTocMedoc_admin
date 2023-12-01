@@ -55,7 +55,7 @@
                   @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn>
                 <!-- <v-btn v-if="item.user.role !== 'USER'" prepend-icon="mdi-pencil"
                   @click="choiceDialog = true; id_compte = item.id; user = item.user;"></v-btn> -->
-                  <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
+                <v-btn prepend-icon="mdi-delete" color="red" @click="dialogDelete = true; user = item.user;"></v-btn>
               </v-row>
 
             </v-container>
@@ -269,6 +269,7 @@
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import moment from "moment";
+import local from "@/storage/local";
 
 export default {
   components: {
@@ -412,27 +413,40 @@ export default {
         console.error('Error fetching users:', error);
       }
     },
-    async add_user() {
-      try {
-        const Data = {
 
-          firstname: this.user.firstname,
-          lastname: this.user.lastname,
-          email: this.user.email,
-          phone: this.user.phone,
-          role: this.user.role,
-          password: "root"
+    async add_user() {
+      const accessToken = local.getSharedData();
+      console.log("accessToken", accessToken.token);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
         };
-        const response = await this.$axios.post("/user/add", Data);
-        this.user = {};  // Effacez les données après l'ajout réussi
-        console.log('Add user =', response.Data);
-        this.get_user();  // Rafraîchissez la liste des utilisateurs
-        this.showSnackbar('Utilisateur ajouté avec succès', 'success');
-        this.dialog = false;
-      } catch (error) {
-        console.error('Error adding user:', error);
-        this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de l\'utilisateur, veuillez vérifier les champs', 'error');
+
+        console.log("entete", headers);
+        try {
+          const Data = {
+
+            firstname: this.user.firstname,
+            lastname: this.user.lastname,
+            email: this.user.email,
+            phone: this.user.phone,
+            role: this.user.role,
+            password: "root"
+          };
+          const response = await this.$axios.post("/user/add", Data, {
+            headers: headers,
+          });
+          this.user = {};  // Effacez les données après l'ajout réussi
+          console.log('Add user =', response.Data);
+          this.get_user();  // Rafraîchissez la liste des utilisateurs
+          this.showSnackbar('Utilisateur ajouté avec succès', 'success');
+          this.dialog = false;
+        } catch (error) {
+          console.error('Error adding user:', error);
+          this.showSnackbar('Une erreur s\'est produite lors de l\'ajout de l\'utilisateur, veuillez vérifier les champs', 'error');
+        }
       }
+
     },
 
     async validate() {
@@ -451,102 +465,133 @@ export default {
     },
 
     async updated_user() {
-      const { valid } = await this.$refs.form.validate();
+      const accessToken = local.getSharedData();
+      console.log("accessToken", accessToken.token);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
 
-      if (valid) {
-        try {
-          console.log('USER =', this.user);
-          const requestData = {
-            // id_compte : this.id_compte,
+        console.log("entete", headers);
+        const { valid } = await this.$refs.form.validate();
+
+        if (valid) {
+          try {
+            console.log('USER =', this.user);
+            const requestData = {
+              // id_compte : this.id_compte,
+              id: this.user.id,
+              firstname: this.user.firstname,
+              lastname: this.user.lastname,
+              phone: this.user.phone,
+              email: this.user.email,
+              role: this.user.role,
+            };
+            console.log('id_compte=', this.id_compte.id)
+
+            const response = await this.$axios.put('/user/update/' + this.user.id, requestData, {
+              headers: headers,
+            });
+            console.log('Update user =', response.data);
+            this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
+            this.showSnackbar('Utilisateur modifié avec succès', 'success');
+            this.updateDialog = false;
+            this.choiceDialog = false;
+            this.get_user();
+          } catch (error) {
+            console.error('Erreur lors de la mise à jour:', error);
+            this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+          }
+        } else {
+          console.log("BAD !!!!");
+          this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+        }
+      }
+
+    },
+
+    deleteItemConfirm() {
+      const accessToken = local.getSharedData();
+
+      console.log("accessToken", accessToken.token);
+      console.log('user =', this.user);
+
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`
+        };
+
+        console.log("entete", headers);
+
+        this.$axios.delete(`/user/delete/${this.user.id}`, {
+          headers: headers,
+          data: {
             id: this.user.id,
             firstname: this.user.firstname,
             lastname: this.user.lastname,
             phone: this.user.phone,
             email: this.user.email,
             role: this.user.role,
-          };
-          console.log('id_compte=', this.id_compte.id)
-
-          const response = await this.$axios.put('/user/update/' + this.user.id, requestData);
-          console.log('Update user =', response.data);
-          this.user = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.showSnackbar('Utilisateur modifié avec succès', 'success');
-          this.updateDialog = false;
-          this.choiceDialog = false;
-          this.get_user();
-        } catch (error) {
-          console.error('Erreur lors de la mise à jour:', error);
-          this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
-        }
-      } else {
-        console.log("BAD !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+          }
+        })
+          .then(() => {
+            this.showSnackbar('Utilisateur supprimé avec succès', 'success');
+            this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la suppression du Utilisateur:', error);
+            this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
+          })
+          .finally(() => {
+            this.user = {};
+            this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
+          });
       }
     },
 
-    deleteItemConfirm() {
-      console.log('user =', this.user);
-      const requestData = {
-        id: this.user.id,
-        firstname: this.user.firstname,
-        lastname: this.user.lastname,
-        phone: this.user.phone,
-        email: this.user.email,
-        role: this.user.role,
-      };
-      this.$axios.delete('/user/delete/' + this.user.id, requestData)
-        .then(() => {
-          this.showSnackbar('Utilisateur supprimé avec succès', 'success');
-          this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
-        })
-        .catch((error) => {
-          console.error('Erreur lors de la suppression du Utilisateur:', error);
-          this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
-        })
-        .finally(() => {
-          this.user = {};
-          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
-        });
-
-
-
-    },
 
     async validate_rate() {
       const { valid } = await this.$refs.form.validate();
+      const accessToken = local.getSharedData();
+      console.log("accessToken", accessToken.token);
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
 
-      if (valid) {
-        try {
-          console.log('rate id =', this.sub.id);
+        console.log("entete", headers);
 
-          // Choisissez un utilisateur spécifique ou ajustez votre logique pour sélectionner le bon utilisateur
-          const IdCompte = this.id_compte;
-          console.log('id_compte =', IdCompte);
+        if (valid) {
+          try {
+            console.log('rate id =', this.sub.id);
 
-          const params = { rate_id: this.sub.id };
-          const response = await this.$axios.put(`/account/subscribe_rate/${IdCompte}`, null, { params });
+            // Choisissez un utilisateur spécifique ou ajustez votre logique pour sélectionner le bon utilisateur
+            const IdCompte = this.id_compte;
+            console.log('id_compte =', IdCompte);
 
-          console.log('subscribe_rate user =', response.data);
-          this.sub = {}; // Effacez les données du conducteur après la mise à jour réussie
-          this.subDialog = false;
-          this.choiceDialog = false;
-          this.updateDialog = false;
-          this.choiceDialog = false;
-          this.get_user();
-        } catch (error) {
-          console.error('Erreur lors de la mise à jour:', error);
+            const params = { rate_id: this.sub.id };
+            const response = await this.$axios.put(`/account/subscribe_rate/${IdCompte}`, null, { params }, {
+              headers: headers,
+            });
+
+            console.log('subscribe_rate user =', response.data);
+            this.sub = {}; // Effacez les données du conducteur après la mise à jour réussie
+            this.subDialog = false;
+            this.choiceDialog = false;
+            this.updateDialog = false;
+            this.choiceDialog = false;
+            this.get_user();
+          } catch (error) {
+            console.error('Erreur lors de la mise à jour:', error);
+            this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
+          }
+        } else {
+          console.log("BAD !!!!");
           this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
         }
-      } else {
-        console.log("BAD !!!!");
-        this.showSnackbar('Une erreur s\'est produite lors de la modification ...', 'error');
       }
+
     },
-
-
-
-
-
 
   },
 

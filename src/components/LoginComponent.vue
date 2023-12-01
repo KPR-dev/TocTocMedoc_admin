@@ -174,6 +174,8 @@ export default {
               this.$updateToken(response.data.token.access_token);
               const value = response.data
               console.log('value =', value)
+              // Dans la logique d'authentification
+
               // Stocker le jeton d'authentification dans le stockage local
               local.setSharedData(response.data)
               console.log('localstorage =', localStorage)

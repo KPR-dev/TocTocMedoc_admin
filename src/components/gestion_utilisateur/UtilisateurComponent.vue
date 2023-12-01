@@ -267,6 +267,8 @@
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import moment from "moment";
+import local from "@/storage/local";
+
 
 export default {
   components: {
@@ -420,6 +422,7 @@ export default {
       }
     },
     async add_user() {
+
       try {
         const Data = {
 
@@ -458,6 +461,11 @@ export default {
     },
 
     enable_user() {
+
+      const accessToken = local.getSharedData();
+
+      console.log("accessToken", accessToken.token);
+
       console.log('user =', this.user);
       const requestData = {
         id_compte: this.id_compte,
@@ -468,26 +476,38 @@ export default {
         email: this.user.email,
         role: this.user.role,
       };
-      this.$axios.put('/account/enable_account/' + this.id_compte, requestData)
-        .then(() => {
-          this.showSnackbar('Compte réactiver avec succès', 'success');
-          this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
+
+        console.log("entete", headers);
+        this.$axios.put('/account/enable_account/' + this.id_compte, requestData, {
+          headers: headers,
         })
-        .catch((error) => {
-          console.error('Erreur lors de la réactivation du compte:', error);
-          this.showSnackbar('Erreur lors de la réactivation du compte', 'error');
-        })
-        .finally(() => {
-          this.user = {};
-          this.choiceDialog = false; // Ferme la boîte de dialogue après la suppression
-        });
+          .then(() => {
+            this.showSnackbar('Compte réactiver avec succès', 'success');
+            this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la réactivation du compte:', error);
+            this.showSnackbar('Erreur lors de la réactivation du compte', 'error');
+          })
+          .finally(() => {
+            this.user = {};
+            this.choiceDialog = false; // Ferme la boîte de dialogue après la suppression
+          });
 
-
-
+      }
     },
 
     deleteItemConfirm() {
+      const accessToken = local.getSharedData();
+
+      console.log("accessToken", accessToken.token);
+
       console.log('user =', this.user);
+
       const requestData = {
         id_compte: this.id_compte,
         id: this.user.id,
@@ -497,23 +517,32 @@ export default {
         email: this.user.email,
         role: this.user.role,
       };
-      this.$axios.put('/account/disable_account/' + this.id_compte, requestData)
-        .then(() => {
-          this.showSnackbar('Utilisateur desactiver avec succès', 'success');
-          this.get_user(); // Rafraîchit la liste des Utilisateurs après la suppression
+
+      if (accessToken) {
+        const headers = {
+          Authorization: `Bearer ${accessToken.token.access_token}`,
+        };
+
+        console.log("entete", headers);
+
+        this.$axios.put('/account/disable_account/' + this.id_compte, requestData, {
+          headers: headers,
         })
-        .catch((error) => {
-          console.error('Erreur lors de la suppression du Utilisateur:', error);
-          this.showSnackbar('Erreur lors de la suppression du Utilisateur', 'error');
-        })
-        .finally(() => {
-          this.user = {};
-          this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
-        });
-
-
-
+          .then(() => {
+            this.showSnackbar('Utilisateur désactivé avec succès', 'success');
+            this.get_user(); // Rafraîchit la liste des utilisateurs après la suppression
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la désactivation du compte:', error);
+            this.showSnackbar('Erreur lors de la désactivation du compte', 'error');
+          })
+          .finally(() => {
+            this.user = {};
+            this.dialogDelete = false; // Ferme la boîte de dialogue après la suppression
+          });
+      }
     },
+
 
     async validate_rate() {
       const { valid } = await this.$refs.form.validate();
