@@ -19,10 +19,20 @@
       <v-row>
         <div class="d-flex align-center flex-column">
           <div class="d-flex flex-wrap justify-content-between">
-            <v-card class="mx-4 my-6" width="300" title="Utilisateurs" prepend-icon="mdi-account-group"
+            <v-card class="mx-4 my-6" width="300" title="Utilisateurs actif" prepend-icon="mdi-account-group"
               style="background: #CEE5FF;">
               <div class="mx-4 my-6">
                 <h1>{{ numberusers }}</h1>
+              </div>
+            </v-card>
+          </div>
+        </div>
+        <div class="d-flex align-center flex-column">
+          <div class="d-flex flex-wrap justify-content-between">
+            <v-card class="mx-4 my-6" width="300" title="Utilisateurs inactif" prepend-icon="mdi-account-group"
+              style="background: #CEE5FF;">
+              <div class="mx-4 my-6">
+                <h1>{{ numberusersinactif }}</h1>
               </div>
             </v-card>
           </div>
@@ -55,8 +65,12 @@
                   :disabled="item.user.role === 'USER'"></v-btn>
               </v-row> -->
               <v-row justify="center" align="center">
-                <v-btn prepend-icon="mdi-account-off" color="red" @click="dialogDelete = true; id_compte = item.id; user = item.user;" :disabled="!item.activate===true"></v-btn>
-                <v-btn prepend-icon="mdi-account-reactivate" color="blue" @click="choiceDialog = true; id_compte = item.id; user = item.user;" :disabled="!item.activate===false"></v-btn>
+                <v-btn prepend-icon="mdi-account-off" color="red"
+                  @click="dialogDelete = true; id_compte = item.id; user = item.user;"
+                  :disabled="!item.activate === true"></v-btn>
+                <v-btn prepend-icon="mdi-account-reactivate" color="blue"
+                  @click="choiceDialog = true; id_compte = item.id; user = item.user;"
+                  :disabled="!item.activate === false"></v-btn>
 
               </v-row>
 
@@ -322,7 +336,16 @@ export default {
 
     numberusers() {
       // Utilisez la propriété length pour obtenir le nombre de tickets dans le tableau
-      return this.users.length;
+      const usersActifs = this.users.filter(user => user.activate === true);
+      // Utilisez la propriété length pour obtenir le nombre d'utilisateurs actifs
+      return usersActifs.length;
+    },
+
+
+    numberusersinactif() {
+      const usersInactifs = this.users.filter(user => user.activate === false);
+      // Utilisez la propriété length pour obtenir le nombre d'utilisateurs Inactifs
+      return usersInactifs.length;
     },
     formattedDate() {
       return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
