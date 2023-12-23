@@ -80,13 +80,17 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.lastname" clearable :rules="rules" label="Pseudo *"
+                    hint="Veuillez entrer le pseudo" variant="outlined"></v-text-field>
+                </v-col>
+                <!-- <v-col cols="12" sm="6">
                   <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
                     hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
-                </v-col>
+                </v-col> -->
                 <v-col cols="12" sm="6">
                   <v-text-field v-model="user.phone" clearable :rules="rules" label="Télephone *"
                     hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
@@ -133,13 +137,17 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6">
+                  <v-text-field v-model="user.lastname" clearable :rules="rules" label="Pseudo *"
+                    hint="Veuillez entrer le pseudo" variant="outlined"></v-text-field>
+                </v-col>
+                <!-- <v-col cols="12" sm="6">
                   <v-text-field v-model="user.lastname" clearable :rules="rules" label="Nom *"
                     hint="Veuillez entrer le nom" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field v-model="user.firstname" :rules="rules" clearable label="Prénom *"
                     hint="Veuillez entrer le prenom" variant="outlined"></v-text-field>
-                </v-col>
+                </v-col> -->
                 <v-col cols="12" sm="6">
                   <v-text-field type="number" v-model="user.phone" clearable :rules="rules" label="Télephone *"
                     hint="Veuillez entrer le télephone" variant="outlined"></v-text-field>
@@ -295,8 +303,8 @@ export default {
     headers: [
 
       { key: "id", title: "#" },
-      { key: "user.lastname", title: "Nom" },
-      { key: "user.firstname", title: "Prénom" },
+      { key: "user.lastname", title: "Pseudo" },
+      // { key: "user.firstname", title: "Prénom" },
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       // { key: "user.role", title: "Role" },

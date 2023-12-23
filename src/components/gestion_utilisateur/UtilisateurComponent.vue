@@ -294,8 +294,8 @@ export default {
     headers: [
 
       { key: "id", title: "#" },
-      { key: "user.lastname", title: "Nom" },
-      { key: "user.firstname", title: "Prénom" },
+      { key: "user.lastname", title: "Pseudo" },
+      //  { key: "user.firstname", title: "Prénom" },
       { key: "user.phone", title: "Télephone" },
       { key: "user.email", title: "Email" },
       // { key: "user.role", title: "Role" },
@@ -307,7 +307,7 @@ export default {
     users: [],
     userIds: [],
     user: {
-      firstname: "",
+      // firstname: "",
       lastname: "",
       phone: "",
       email: "",

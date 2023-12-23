@@ -91,7 +91,8 @@ export default {
     search: "",
     headers: [
       { key: "ip_address", title: "Adresse Ip" },
-      { key: `current_user.id`, title: 'Utilisateur' },
+      { key: `current_user.lastname`, title: 'Utilisateur' },
+      // { key: `current_user.pseudo`, title: 'Utilisateur' },
 
       { key: "action", title: "Action effectuée" },
       { key: "date_time", title: "Date & heure" },

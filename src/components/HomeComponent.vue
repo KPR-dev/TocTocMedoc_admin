@@ -17,6 +17,22 @@
         </template>
       </v-breadcrumbs>
     </v-row>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <h4>Date de début</h4>
+        <v-date-picker v-model="event.start_at" label="Sélectionnez une date début"></v-date-picker>
+      </v-col>
+
+      <v-col cols="12" sm="6">
+        <h4>Date de fin</h4>
+        <v-date-picker v-model="event.end_at" label="Sélectionnez une date fin"></v-date-picker>
+      </v-col>
+
+      <v-btn color="green-darken-1" variant="flat" @click="get_events()">
+        Filtrer
+      </v-btn>
+    </v-row><br>
+
     <v-divider></v-divider>
     <v-container class="mt-8">
       <v-row>
@@ -65,18 +81,19 @@
                 <h1> {{ numberOfverification }} </h1>
               </div>
             </v-card>
+            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="285" title="Total reservation"
+              prepend-icon="mdi mdi-cart-outline">
+              <div class="mx-4 my-6">
+                <h1> {{ numberOfreservation }} </h1>
+              </div>
+            </v-card>
             <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="285" title="Montant souscription"
               prepend-icon="mdi-credit-card-plus">
               <div class="mx-4 my-6">
                 <h1> {{ numberOfsouscription }} FCFA</h1>
               </div>
             </v-card>
-            <v-card class="mx-4 my-6" style="background: #CEE5FF;" width="285" title="Montant reservation"
-              prepend-icon="mdi mdi-cart-outline">
-              <div class="mx-4 my-6">
-                <h1> 0 FCFA</h1>
-              </div>
-            </v-card>
+
           </div>
         </div>
       </v-row>
@@ -92,21 +109,27 @@
 <script>
 // import { VDataTable } from "vuetify/labs/VDataTable";
 import moment from "moment";
-
+import { VDatePicker } from 'vuetify/labs/VDatePicker'
 
 export default {
-  // components: {
-  //   VDataTable,
-  // },
+
+  components: {
+    VDatePicker,
+  },
   data: () => ({
     updateDialog: false,
     dialog: false,
     search: "",
-
+    menu: false,
+    selectedDate: null,
     rates: [],
     grilles: [],
     users: [],
     events: [],
+    event: {
+      start_at: "",
+      end_at: "",
+    },
     events_entity: [],
     resultats: {},
   }),
@@ -114,7 +137,6 @@ export default {
     this.get_rates();
     this.get_tarif();
     this.get_users();
-    this.get_events();
 
 
 
@@ -145,14 +167,11 @@ export default {
       return totalAmount;
     },
 
-        numberOfreservation() {
-      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts' avec un montant défini
-      const souscriptionEvents = this.events_entity.filter(event => event.amount !== undefined && event.amount !== null);
-
-      // Utilisez la méthode reduce pour additionner tous les montants
-      const totalAmount = souscriptionEvents.reduce((acc, event) => acc + event.amount, 0);
-
-      return totalAmount;
+    numberOfreservation() {
+      // Utilisez la méthode filter pour obtenir un tableau contenant uniquement les événements 'accounts'
+      const reservationEvents = this.events_entity.filter(event => event.action === 'Réservation d\'un produit');
+      // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
+      return reservationEvents.length;
     },
 
 
@@ -162,6 +181,7 @@ export default {
       // Utilisez la propriété length pour obtenir le nombre d'événements 'accounts'
       return verificationEvents.length;
     },
+
     numberOfRates() {
       // Utilisez la propriété length pour obtenir le nombre de rates dans le tableau
       return this.rates.length;
@@ -176,23 +196,24 @@ export default {
       return this.grilles.length;
     },
     formattedDate() {
-      return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
+      return (date) => moment(date).format("YYYY-MM-DD");
+      // return (date) => moment(date).format("DD/MM/YYYY à HH:mm");
     },
   },
   methods: {
     async get_events() {
-      this.$axios.get("/event/stat").then((response) => {
-        for (var i = 0; i < response.data.length; i++) {
-          response.data[i].date_time = this.formattedDate(
-            response.data[i].date_time
-          );
-          response.data[i].created_at = this.formattedDate(
-            response.data[i].created_at
-          );
-        }
+      try {
+        const startAt = this.formattedDate(this.event.start_at);
+        const endAt = this.formattedDate(this.event.end_at);
+
+        const response = await this.$axios.get(`/event/get_by_timer/${startAt}/${endAt}`);
+
+        console.log('test=', response.data);
+        console.log('all events stat =', this.events_entity);
         this.events_entity = response.data;
-        console.log('all events stat =', response.data);
-      });
+      } catch (error) {
+        console.error('Une erreur s\'est produite lors de la récupération des événements :', error);
+      }
     },
     async get_rates() {
       this.$axios.get("/rate/all").then((response) => {
